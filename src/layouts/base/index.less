@@ -1,0 +1,43 @@
+@import "../../variable";
+
+@base_width: 1000px;
+
+.base {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background: #F0F2F5;
+}
+
+.forbid {
+  > img {
+    width: 100%;
+    margin-top: -48px;
+  }
+
+  .forbid_operate {
+    text-align: center;
+
+    .forbid_open {
+      width: 80%;
+      background: @base_color;
+      display: inline-block;
+      color: #fff;
+      padding: 10px 40px;
+      height: unset;
+      font-size: 18px;
+      font-weight: bolder;
+      border: unset;
+      border-radius: 100px;
+
+      &:hover {
+        background: @base_color_hover;
+      }
+    }
+
+    .forbid_aggree {
+      font-size: 16px;
+      padding: 12px 0;
+    }
+  }
+}
