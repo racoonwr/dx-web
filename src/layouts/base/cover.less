@@ -1,0 +1,29 @@
+@import "../../variable";
+
+.forbid_modal {
+  .ant-modal-content {
+    border-radius: 12px;
+  }
+
+  .forbid_modal_check {
+    .ant-radio {
+      margin-right: 4px;
+
+      &:after {
+        border-color: @base_color;
+      }
+
+      .ant-radio-inner {
+        border-color: @base_color;
+
+        &:after {
+          background-color: @base_color;
+        }
+      }
+    }
+
+    .aggree {
+      color: @base_color;
+    }
+  }
+}
