@@ -84,7 +84,7 @@ const config = {
             routes: [
               {
                 path: "/",
-                redirect: "/index",
+                redirect: "/login",
               },
               {
                 path: "/index",

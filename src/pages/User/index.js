@@ -72,88 +72,20 @@ export default () => {
 
   return <div className={"page"}>
     <div className={"page-user"}>
-      <div className={"user-header"}>
-        <Texty duration={600} type={"left"}>欢迎登录农机滴滴平台</Texty>
+      <div className={"user-logo"}>
+        <img src="" alt="" />
       </div>
-      <div className={"user-content"}>
-        <div className={"tab-bar"}>
-          {
-            ["登录", "注册"].map((e, i) => {
-              return <div
-                key={i}
-                onClick={handleTabChange(i)}
-                className={`tab-bar-default ${tab === i ? "active" : ""}`}
-              >
-                <span>{e}</span>
-                <div className={"tab-under-line"} />
-              </div>;
-            })
-          }
-        </div>
-        <div className={"tab-user-form"}>
-          {
-            [0, 1].map(e => {
-              return <CSSTransition
-                in={tab === e}
-                timeout={300}
-                unmountOnExit
-                classNames="page-fade"
-              >
-                <div className="page-fade">
-                  {
-                    e ? <div>
-                      <List>
-                        {
-                          FORM_FIELDS.map(item => {
-                            return <InputItem
-                              key={item.name}
-                              type={item.type}
-                              // onChange={handleFormFieldChange(item)}
-                              placeholder={item.placeholder}
-                            >
-                              <div className={"list-icon"} style={{
-                                backgroundImage: `url(${FORM_ICONS[item.name]})`
-                              }} />
-                            </InputItem>;
-                          })
-                        }
-                        {/*<InputItem*/}
-                        {/*placeholder="title can be icon，image or text"*/}
-                        {/*>*/}
-                        {/*<div style={{*/}
-                        {/*backgroundImage: "url(https://zos.alipayobjects.com/rmsportal/DfkJHaJGgMghpXdqNaKF.png)",*/}
-                        {/*backgroundSize: "cover",*/}
-                        {/*height: "22px",*/}
-                        {/*width: "22px"*/}
-                        {/*}} />*/}
-                        {/*</InputItem>*/}
-                        <Picker
-                          data={[{
-                            label: "1",
-                            value: "1"
-                          }]}
-                          cols={1}
-                          value={type}
-                          onChange={handlePickChange}
-                        >
-                          <SlectType />
-                        </Picker>
-                      </List>
-                      <div className={"form-submit"}>
-                        <Button type={"primary"}>{tab ? "立即登录" : "))))"}</Button>
-                      </div>
-                    </div> : <div>
-                      111111111111111
-                    </div>
-                  }
-                </div>
-              </CSSTransition>;
-            })
-          }
-
-
-        </div>
+      <div>
+        <List>
+          <InputItem>
+            <div>1111111111</div>
+          </InputItem>
+        </List>
       </div>
+      用户名
+      密码
+      登录
+      注册
     </div>
   </div>;
 };
