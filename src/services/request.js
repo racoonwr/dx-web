@@ -10,7 +10,7 @@ import { Base64 } from "js-base64";
 /**
  * 异常处理程序
  */
-const errorHandler = (error: { response: Response }): Response => {
+const errorHandler = (error) => {
   const { response } = error;
   if (response && response.status) {
     if (response.status === 401) {
@@ -51,20 +51,10 @@ const request = extend({
 });
 
 request.interceptors.request.use((url, options) => {
-  let cid = "";
-  const queryCid = "getQueryString()";
-  if (queryCid) {
-    window.localStorage.setItem("cid", queryCid);
-    cid = queryCid;
-  } else {
-    cid = window.localStorage.getItem("cid");
-  }
   const params = {
     ...options
   };
-  if (cid) {
-    params.headers["x-channel-id"] = cid;
-  }
+
   const token = window.localStorage.getItem("token");
   if (token && token !== "null" && token !== "undefined") {
     params.headers.token = token;
@@ -82,7 +72,7 @@ request.interceptors.response.use(async (response, options) => {
     return data;
   }
   if (!options.noMessage) {
-    message.error(data?.message || data?.error);
+    Toast.info(data?.message || data?.error);
   }
   return response;
 });

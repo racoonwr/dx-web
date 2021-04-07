@@ -382,7 +382,6 @@ body {
   width: 750px;
   left: 50%;
   transform: translateX(-50%);
-  background: #F7F7F7;
 }
 
 @supports (bottom: env(safe-area-inset-bottom)) {

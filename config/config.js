@@ -27,17 +27,12 @@ const config = {
     {
       "name": "viewport",
       content: "width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
-    },
+    }
   ],
   title: "antd mobile",
   styles: [],
   headScripts: [
     `
-      if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function() {
-          FastClick.attach(document.body);
-        }, false);
-      }
       if(!window.Promise) {
          document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
       }
@@ -68,7 +63,7 @@ const config = {
         router: [
           {
             name: "登陆",
-            path: "/login",
+            path: "/login"
             // component: ""
           }
         ]
@@ -84,27 +79,28 @@ const config = {
             routes: [
               {
                 path: "/",
-                redirect: "/login",
-              },
-              {
-                path: "/index",
-                component: "./Index/index",
+                redirect: "/login"
               },
               {
                 path: "/login",
-                component: "./User/index",
+                component: "./Login/index"
               },
+              {
+                path: "/register",
+                component: "./Register/index"
+              },
+              {
+                path: "/index",
+                component: "./Index/index"
+              }
             ]
-          },
+          }
         ]
       }
     ]
   }],
   theme: {
-    "@primary-color": "#1678FF",
-    "@oil-color": "#FFF024",
-    "@oil-weight-color": "#FFB302",
-    "@brand-primary": "#1678FF",
+    "@brand-primary": "#027aff"
   },
   extraBabelPlugins: [
     ["import", {
