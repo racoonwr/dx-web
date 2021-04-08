@@ -7,29 +7,29 @@ const UserModel = {
   state: {},
 
   effects: {
-    * fetchUser(_, { call, put }) {
+    *fetchUser(_, { call, put }) {
       const response = yield call(null);
       yield put({
         type: "saveUser",
         payload:
           response.status === 403
             ? {
-              data: {
-                forbidden: true
+                data: {
+                  forbidden: true,
+                },
               }
-            }
-            : response
+            : response,
       });
-    }
+    },
   },
 
   reducers: {
     saveUser(state, action) {
       return {
-        ...(action.payload.data || {})
+        ...(action.payload.data || {}),
       };
-    }
-  }
+    },
+  },
 };
 
 export default UserModel;

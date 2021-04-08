@@ -5,5 +5,5 @@ console.log("app.js_____>", process.env.apiUrl);
 
 Toast.config({
   duration: 1500,
-  mask: false
+  mask: false,
 });

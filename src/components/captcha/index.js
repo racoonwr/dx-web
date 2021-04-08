@@ -10,7 +10,7 @@ const Index = (props) => {
 
   const onGetCaptcha = React.useCallback(async (mobile) => {
     const result = await getCaptchaCode({
-      mobile
+      mobile,
     });
 
     if (result && result.code === "00000") {

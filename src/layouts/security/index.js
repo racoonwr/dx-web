@@ -1,5 +1,5 @@
-import React from 'react';
-import { Redirect, connect } from 'umi';
+import React from "react";
+import { Redirect, connect } from "umi";
 
 class SecurityLayout extends React.Component {
   state = {
@@ -14,7 +14,7 @@ class SecurityLayout extends React.Component {
 
     if (dispatch) {
       dispatch({
-        type: 'user/fetchCurrent',
+        type: "user/fetchCurrent",
       });
     }
   }
@@ -31,7 +31,7 @@ class SecurityLayout extends React.Component {
       return "<PageLoading />";
     }
 
-    if (!isLogin && window.location.pathname !== '/user/login') {
+    if (!isLogin && window.location.pathname !== "/user/login") {
       //  return <Redirect to={`/user/login?${queryString}`} />;
       return <Redirect to={`/user/login`} />;
     }

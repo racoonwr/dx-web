@@ -4,6 +4,6 @@ import request from "../../services/request";
 export const login = (data) => {
   return request.post("/code", {
     method: "POST",
-    data
+    data,
   });
 };

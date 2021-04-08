@@ -4,6 +4,6 @@ import request from "./request";
 export const getCaptchaCode = (params) => {
   return request("/code", {
     method: "POST",
-    data: params
+    data: params,
   });
 };

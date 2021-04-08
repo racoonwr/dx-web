@@ -13,8 +13,8 @@ const errorHandler = (error) => {
         history.replace({
           pathname: "/login",
           query: {
-            redirect: Base64.encodeURI(redirect)
-          }
+            redirect: Base64.encodeURI(redirect),
+          },
         });
       }
     }
@@ -24,12 +24,12 @@ const errorHandler = (error) => {
     const { status, url } = response;
     console.info({
       message: `请求错误 ${status}: ${url}`,
-      description: response.statusText
+      description: response.statusText,
     });
   } else if (!response) {
     console.info({
       description: "您的网络发生异常，无法连接服务器",
-      message: "网络异常"
+      message: "网络异常",
     });
   }
   return response;
@@ -41,12 +41,12 @@ const errorHandler = (error) => {
 const request = extend({
   errorHandler,
   prefix: `${process.env.apiUrl}/`,
-  credentials: "include" // 默认请求是否带上cookie
+  credentials: "include", // 默认请求是否带上cookie
 });
 
 request.interceptors.request.use((url, options) => {
   const params = {
-    ...options
+    ...options,
   };
 
   const token = window.localStorage.getItem("token");
@@ -55,7 +55,7 @@ request.interceptors.request.use((url, options) => {
   }
   return {
     url,
-    options: params
+    options: params,
   };
 });
 
