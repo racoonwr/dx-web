@@ -88,10 +88,6 @@ const config = {
               {
                 path: "/register",
                 component: "./Register/index"
-              },
-              {
-                path: "/index",
-                component: "./Index/index"
               }
             ]
           }

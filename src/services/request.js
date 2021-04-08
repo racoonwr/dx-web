@@ -1,16 +1,10 @@
-/**
- * request 网络请求工具
- * 更详细的 api 文档: https://github.com/umijs/umi-request
- */
 import { extend } from "umi-request";
 import { Toast } from "antd-mobile";
 import { history } from "umi";
 import { Base64 } from "js-base64";
 
-/**
- * 异常处理程序
- */
 const errorHandler = (error) => {
+  console.log("errorororor---> fetcg", error);
   const { response } = error;
   if (response && response.status) {
     if (response.status === 401) {
@@ -45,8 +39,8 @@ const errorHandler = (error) => {
  * 配置request请求时的默认参数
  */
 const request = extend({
-  prefix: `${process.env.apiUrl}/moo-tax/api`,
-  errorHandler, // 默认错误处理
+  errorHandler,
+  prefix: `${process.env.apiUrl}/`,
   credentials: "include" // 默认请求是否带上cookie
 });
 

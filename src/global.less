@@ -68,6 +68,7 @@ pre {
 a {
   background-color: transparent;
 }
+
 a:active,
 a:hover {
   outline: 0 none;
@@ -386,13 +387,13 @@ body {
 
 @supports (bottom: env(safe-area-inset-bottom)) {
   #root {
-    margin-bottom:  env(safe-area-inset-bottom);
+    margin-bottom: env(safe-area-inset-bottom);
   }
 }
 
 @supports (bottom: constant(safe-area-inset-bottom)) {
   #root {
-    margin-bottom:  constant(safe-area-inset-bottom);
+    margin-bottom: constant(safe-area-inset-bottom);
   }
 }
 
@@ -404,6 +405,7 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
 .page {
   z-index: 2000;
 }
@@ -414,6 +416,7 @@ body {
   animation: ForwardEnter .4s forwards;
   z-index: 2002;
 }
+
 @keyframes ForwardEnter {
   from {
     transform: translate3d(100%, 0, 0);
@@ -430,6 +433,7 @@ body {
 .back-exit-active {
   animation: BackExit .4s forwards
 }
+
 @-webkit-keyframes BackExit {
   from {
     opacity: 1;
@@ -448,6 +452,7 @@ body {
 .back-enter-active {
   animation: BackEnter .4s forwards
 }
+
 @keyframes BackEnter {
   from {
     opacity: .5;
@@ -459,10 +464,12 @@ body {
     transform: translate3d(0, 0, 0)
   }
 }
+
 .forward-exit-active {
   animation: ForwardExit .4s forwards;
   z-index: 2002
 }
+
 @keyframes ForwardExit {
   from {
     transform: translate3d(0, 0, 0);
@@ -480,6 +487,7 @@ body {
 .page-fade {
   position: absolute;
 }
+
 .page-fade-enter {
   opacity: 0;
   transform: scale(1.1);
@@ -500,4 +508,49 @@ body {
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 300ms, transform 300ms;
+}
+
+
+/*List & inputitem common style*/
+.list-with-input-item {
+  .am-list-body {
+    border-top: none !important;
+    border-bottom: none !important;
+
+    &:before, &:after {
+      display: none !important;
+    }
+
+    .am-list-item {
+      height: unset;
+      padding-left: 0;
+
+      .am-list-line {
+        padding-right: 0;
+        border-bottom: 1PX solid #ddd;
+
+        &:after {
+          display: none;
+        }
+
+        .am-input-label, .am-input-control {
+          padding: 24px 0 12px 0;
+        }
+
+        .am-input-control {
+          input {
+            font-weight: 600;
+
+            &::-webkit-input-placeholder {
+              font-weight: normal;
+            }
+          }
+        }
+
+        .am-input-extra {
+          max-height: unset;
+        }
+      }
+    }
+  }
 }
