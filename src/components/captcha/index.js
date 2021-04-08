@@ -15,9 +15,8 @@ const Index = (props) => {
 
     if (result && result.code === "00000") {
       Toast.info("验证码发送成功，请在手机查看。");
+      setTiming(true);
     }
-
-    setTiming(true);
   }, []);
 
   React.useEffect(() => {
