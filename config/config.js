@@ -83,11 +83,28 @@ const config = {
               },
               {
                 path: "/login",
+                title: "登录",
                 component: "./Login/index"
               },
               {
                 path: "/register",
+                title: "注册,
                 component: "./Register/index"
+              },
+              {
+                path: "/index",
+                title: "管理后台",
+                component: "./Index/index"
+              },
+              {
+                path: "/enterprise",
+                title: "我的企业",
+                component: "./Enterprise/index"
+              },
+              {
+                path: "/deal",
+                title: "我的协议",
+                component: "./Deal/index"
               }
             ]
           }
@@ -96,7 +113,8 @@ const config = {
     ]
   }],
   theme: {
-    "@brand-primary": "#027aff"
+    "@brand-primary": "#027aff",
+    "@brand-primary-tap": "#0e80d2"
   },
   extraBabelPlugins: [
     ["import", {

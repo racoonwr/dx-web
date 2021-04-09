@@ -1,13 +1,11 @@
 import React from "react";
 import { history } from "umi";
 import { Button, InputItem, List, Toast, Modal } from "antd-mobile";
-import { register } from "./service";
 import { useRequest } from "ahooks";
 import { regs } from "../../utils/tools";
 
 import Captcha from "../../components/captcha";
 
-import "./index.less";
 
 const FIELDITEMS = [
   {
@@ -78,7 +76,7 @@ export default () => {
       Modal.alert("恭喜您，注册成功！", null, [{
         text: "确定",
         onPress: () => {
-          history.replace("/index");
+          history.replace("/enterprise");
         }
       }]);
     }
@@ -91,12 +89,6 @@ export default () => {
       Toast.fail("手机号验证错误,请重新输入.");
       return;
     }
-    Modal.alert("恭喜您，注册成功！", null, [{
-      text: "确定",
-      onPress: () => {
-        history.replace("/index");
-      }
-    }]);
     // run(fields);
   }, [fields]);
 
