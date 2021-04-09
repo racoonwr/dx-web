@@ -1,0 +1,47 @@
+.page-register {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow-x: hidden;
+  padding: 0 24px;
+
+  .register-logo {
+    text-align: center;
+    margin: 120px auto;
+    font-size: 60px;
+    font-weight: bold;
+  }
+
+  .register-form {
+    padding-bottom: 60px;
+
+    .am-input-extra {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 12px;
+
+      .am-button {
+        border: unset;
+
+        &:before {
+          display: none;
+        }
+      }
+    }
+
+    .register-captcha {
+      height: unset;
+      line-height: unset;
+    }
+  }
+
+  .register-operate {
+    display: flex;
+    justify-content: space-around;
+
+    .am-button {
+      width: 180px;
+    }
+  }
+}

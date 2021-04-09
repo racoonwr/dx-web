@@ -10,7 +10,7 @@ const Model = {
     //   return yield call(getUrlMap, payload);
     // }
   },
-  reducers: {}
+  reducers: {},
 };
 
 export default Model;

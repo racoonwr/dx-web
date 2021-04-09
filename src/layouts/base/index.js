@@ -12,24 +12,24 @@ import styles from "./index.less";
 import "./cover.less";
 
 const checkRoute = (router, pathname) => {
-  console.log(111, router, pathname)
+  console.log(111, router, pathname);
   const authority = router.find(
     ({ routes, path = "/", target = "_self" }) =>
       (path && target !== "_blank" && pathRegexp(path).exec(pathname)) ||
-      (routes && checkRoute(routes, pathname)),
+      (routes && checkRoute(routes, pathname))
   );
   if (authority) return authority;
   return undefined;
 };
 
-const BaseLayout = props => {
+const BaseLayout = (props) => {
   const check = checkRoute(props.route.routes, props.location.pathname || "/");
 
   const handleAgree = React.useCallback(
     (value) => () => {
       setVisible(value);
     },
-    [],
+    []
   );
 
   return (
@@ -37,9 +37,7 @@ const BaseLayout = props => {
       {check ? (
         props.children
       ) : (
-        <div className={styles.base}>
-          {/*<NotMatch />*/}
-        </div>
+        <div className={styles.base}>{/*<NotMatch />*/}</div>
       )}
       {/*// <Modal*/}
       {/*//   centered*/}
