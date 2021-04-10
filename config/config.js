@@ -1,6 +1,5 @@
 import px2rem from "postcss-px2rem-exclude";
 
-// ref: https://umijs.org/config/
 const config = {
   hash: true,
   history: { type: "hash" },
@@ -61,16 +60,6 @@ const config = {
       path: "/",
       component: "@/layouts/base/index",
       routes: [
-        {
-          path: "/user",
-          router: [
-            {
-              name: "登陆",
-              path: "/login",
-              // component: ""
-            },
-          ],
-        },
         {
           path: "/",
           component: "@/layouts/index",
