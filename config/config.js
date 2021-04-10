@@ -30,13 +30,14 @@ const config = {
         "width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover",
     },
   ],
-  title: "antd mobile",
-  styles: [],
+  title: " ",
   headScripts: [
+    "//wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.4.0",
     `
       if(!window.Promise) {
          document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
       }
+      var vConsole = new VConsole();
     `,
   ],
   extraPostCSSPlugins: [
@@ -58,55 +59,53 @@ const config = {
   routes: [
     {
       path: "/",
-      component: "@/layouts/base/index",
+      component: "@/layouts/index",
       routes: [
         {
-          path: "/",
-          component: "@/layouts/index",
-          // redirect: "/login",
+          path: "/login",
+          title: "登录",
+          component: "./Login/index",
+        },
+        {
+          path: "/register",
+          title: "注册",
+          component: "./Register/index",
+        },
+        {
+          component: "@/layouts/security",
           routes: [
             {
-              path: "/",
-              component: "@/layouts/base/index",
+              component: "@/layouts/index",
               routes: [
                 {
-                  path: "/",
-                  redirect: "/login",
-                },
-                {
-                  path: "/login",
-                  title: "登录",
-                  component: "./Login/index",
-                },
-                {
-                  path: "/register",
-                  title: "注册",
-                  component: "./Register/index",
-                },
-                {
-                  path: "/index",
-                  title: "管理后台",
-                  component: "./Index/index",
-                },
-                {
-                  path: "/enterprise",
-                  component: "./Enterprise/index",
-                },
-                {
-                  path: "/enterprise/detail",
-                  component: "./Enterprise/Operate/index",
-                },
-                {
-                  path: "/deal",
-                  component: "./Deal/index",
-                },
-                {
-                  path: "/deal/add",
-                  component: "./Deal/Add/index",
-                },
-                {
-                  path: "/deal/detail",
-                  component: "./Deal/Detail/index",
+                  component: "@/layouts/base/index",
+                  routes: [
+                    {
+                      path: "/index",
+                      title: "管理后台",
+                      component: "./Index/index",
+                    },
+                    {
+                      path: "/enterprise",
+                      component: "./Enterprise/index",
+                    },
+                    {
+                      path: "/enterprise/detail",
+                      component: "./Enterprise/Operate/index",
+                    },
+                    {
+                      path: "/deal",
+                      component: "./Deal/index",
+                    },
+                    {
+                      path: "/deal/add",
+                      component: "./Deal/Add/index",
+                    },
+                    {
+                      path: "/deal/detail",
+                      component: "./Deal/Detail/index",
+                    },
+                  ],
                 },
               ],
             },
