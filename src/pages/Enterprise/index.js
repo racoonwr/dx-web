@@ -15,6 +15,10 @@ export default connect(
     };
   }
 )((props) => {
+  React.useEffect(() => {
+    document.title = "";
+  }, []);
+
   const {
     dispatch,
     myEnterpriseList = [],
@@ -93,10 +97,6 @@ export default connect(
       },
     });
   }, [pageNumber]);
-
-  React.useEffect(() => {
-    document.title = "";
-  }, []);
 
   return (
     <div className={"page"}>

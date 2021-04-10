@@ -1,14 +1,12 @@
-import { Effect, Reducer } from "umi";
-// import { getUserInfo } from "@/services/user";
+import { getUserInfo } from "@/services/user";
 
 const UserModel = {
   namespace: "user",
-
   state: {},
-
   effects: {
-    *fetchUser(_, { call, put }) {
-      const response = yield call(null);
+    *getUser(_, { call, put }) {
+      const response = yield call(getUserInfo);
+      //解构
       yield put({
         type: "saveUser",
         payload:

@@ -7,7 +7,6 @@ import { useRequest } from "ahooks";
 // import NotMatch from "../../components/notmatch/index";
 
 import styles from "./index.less";
-import "./cover.less";
 
 const checkRoute = (router, pathname) => {
   console.log(111, router, pathname);

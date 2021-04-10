@@ -2,6 +2,8 @@ import React from "react";
 import { InputItem, List, Button } from "antd-mobile";
 import { createForm } from "rc-form";
 import { FORMA, FORMB } from "./constant";
+import { useRequest } from "ahooks";
+import { getDetail } from "../service";
 
 import "./index.less";
 
@@ -10,12 +12,30 @@ export default createForm()((props) => {
     document.title = "";
   }, []);
 
+  const queryId = history.query.id;
+
   const {
     form: { getFieldProps },
   } = props;
 
+  const { run: getDetailRun, loading: getDetailLoading } = useRequest(
+    getDetail,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        //set fields value
+      },
+    }
+  );
+
+  React.useEffect(() => {
+    if (queryId) {
+      // getDetailRun();
+    }
+  }, [queryId]);
+
   const handleSubmit = React.useCallback(() => {
-    console.log(props);
+    console.log(props.form);
   }, []);
 
   return (
