@@ -25,6 +25,7 @@
     "lib-flexible": "^0.3.2",
     "path-to-regexp": "^2.4.0",
     "postcss-px2rem-exclude": "^0.0.6",
+    "rc-form": "^2.4.12",
     "rc-queue-anim": "^1.8.5",
     "rc-texty": "^0.2.0",
     "react-transition-group": "^4.4.1",

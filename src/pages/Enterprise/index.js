@@ -1,140 +1,141 @@
 import React from "react";
-import { history } from "umi";
-import { Button, InputItem, List, Toast, Modal } from "antd-mobile";
-import { useRequest } from "ahooks";
-import { regs } from "../../utils/tools";
+import { connect, history } from "umi";
+import { ListView, Card, Icon, Button, Modal, List } from "antd-mobile";
 
-import Captcha from "../../components/captcha";
+import "./index.less";
 
+const pageSize = 10;
 
-const FIELDITEMS = [
-  {
-    name: "name",
-    label: "用户名",
-    placeholder: "请输入用户名",
-    maxLength: 16
-  },
-  {
-    name: "pwd",
-    label: "密码",
-    placeholder: "请输入密码",
-    type: "password",
-    maxLength: 16
-  },
-  {
-    name: "name2",
-    label: "经办人姓名",
-    placeholder: "请输入经办人姓名",
-    maxLength: 16
-  },
-  {
-    name: "mobile",
-    label: "经办人电话",
-    placeholder: "请输入经办人电话",
-    type: "phone"
-  },
-  {
-    name: "captcha",
-    label: "验证码",
-    placeholder: "请输入验证码",
-    type: "number",
-    maxLength: 16
+export default connect(
+  ({ common: { myEnterpriseList, myEnterpriseTotal }, loading }) => {
+    return {
+      myEnterpriseList,
+      myEnterpriseTotal,
+      loading,
+    };
   }
-];
+)((props) => {
+  const {
+    dispatch,
+    myEnterpriseList = [],
+    myEnterpriseTotal = 0,
+    loading,
+  } = props;
 
-export default () => {
-  //返回
-  const handleBack = React.useCallback(() => {
-    history.replace("/login");
+  /**add */
+  const handleAdd = React.useCallback(() => {
+    history.push("/enterprise/add");
   }, []);
 
-  //数据
-  const [fields, setFields] = React.useState({});
-  const handleFieldChange = React.useCallback(
-    (key) => (val) => {
-      console.log(key, val);
-      //错误炎症 error or toast
-      setFields((prev) => ({
-        ...prev,
-        [key]: val
-      }));
+  const handleGo = React.useCallback(
+    (path, id) => () => {
+      history.push({
+        pathname: path,
+        query: {
+          id,
+        },
+      });
     },
     []
   );
-  const disableRegister = React.useMemo(() => {
-    return (
-      Object.keys(fields)
-      .map((e) => fields[e])
-      .filter((e) => !!e).length < FIELDITEMS.length
-    );
-  }, [fields]);
 
-  //提交
-  const { run, loading } = useRequest(register, {
-    manual: true,
-    onSuccess: res => {
-      Modal.alert("恭喜您，注册成功！", null, [{
-        text: "确定",
-        onPress: () => {
-          history.replace("/enterprise");
-        }
-      }]);
-    }
+  /**row render */
+  const row = (rowData) => {
+    console.log(rowData);
+    return (
+      <div key={rowData.id}>
+        <Card>
+          <Card.Header title="企业名称" extra={<span>企业名称</span>} />
+          <Card.Body>
+            <div>内容</div>
+            <div className="operate">
+              <Button inline type="primary" onClick={handleGo("/deal/add")}>
+                发起签约
+              </Button>
+              <Button
+                inline
+                type="primary"
+                onClick={handleGo("/enterprise/detail")}
+              >
+                查看详情
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  };
+
+  /**fetch more */
+  const fetchIng = loading.effects["common/getAnyListView"];
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const dataSource = new ListView.DataSource({
+    rowHasChanged: (row1, row2) => row1 !== row2,
   });
-  const handleRegister = React.useCallback(() => {
-    const { mobile } = fields;
-    console.log(fields);
-    const _mobile = mobile.replace(/\s+/g, "");
-    if (!regs.mobile.test(_mobile)) {
-      Toast.fail("手机号验证错误,请重新输入.");
-      return;
+
+  const onEndReached = () => {
+    if (pageSize * pageNumber > myEnterpriseTotal || fetchIng) {
+      return false;
     }
-    // run(fields);
-  }, [fields]);
+    const num = pageNumber + 1;
+    setPageNumber(num);
+  };
+
+  React.useEffect(() => {
+    dispatch({
+      key: "myEnterprise",
+      type: "common/getAnyListView",
+      func: () => {},
+      list: myEnterpriseList,
+      payload: {
+        pageSize,
+        pageNumber,
+      },
+    });
+  }, [pageNumber]);
+
+  React.useEffect(() => {
+    document.title = "";
+  }, []);
 
   return (
     <div className={"page"}>
-      <div className={"page-register"}>
-        <div className={"register-logo"}>注册经办人</div>
-        <List className={"list-with-input-item register-form "}>
-          {FIELDITEMS.map((e, i) => {
-            const _key = e.name;
-            return (
-              <InputItem
-                key={_key}
-                type={e.type}
-                clear={true}
-                placeholder={e.placeholder}
-                maxLength={e.maxLength}
-                value={fields[_key]}
-                onChange={handleFieldChange(_key)}
-                extra={
-                  e.name === "captcha" ? (
-                    <Captcha
-                      disabled={true}
-                      className={"register-captcha"}
-                      mobile={fields["mobile"]}
-                    />
-                  ) : null
-                }
-              >
-                {e.label}
-              </InputItem>
-            );
-          })}
-        </List>
-        <div className={"register-operate"}>
-          <Button onClick={handleBack}>返回</Button>
-          <Button
-            disabled={disableRegister}
-            loading={loading}
-            type={"primary"}
-            onClick={handleRegister}
-          >
-            提交
+      <div className={"page-enterprise"}>
+        <div className="enterprise-title">
+          我的企业
+          <Button type="ghost" inline className="add" onClick={handleAdd}>
+            新增
           </Button>
         </div>
+        <ListView
+          className="deal-list"
+          // dataSource={dataSource.cloneWithRows(myDealList)}
+          dataSource={dataSource.cloneWithRows([{ id: 1 }])}
+          renderFooter={() => (
+            <div
+              style={{
+                padding: 10,
+                fontSize: "0.35rem",
+                textAlign: "center",
+                color: "rgba(17, 31, 44, 0.5)",
+              }}
+            >
+              {pageNumber > 1 &&
+                pageSize * pageNumber > myEnterpriseTotal &&
+                "到底了～"}
+              {!fetchIng &&
+                myEnterpriseTotal === 0 &&
+                pageNumber === 1 &&
+                "暂无数据"}
+            </div>
+          )}
+          renderRow={row}
+          pageSize={pageSize}
+          scrollRenderAheadDistance={500}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={10}
+        />
       </div>
     </div>
   );
-};
+});

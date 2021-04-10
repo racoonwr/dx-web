@@ -100,8 +100,11 @@ const config = {
                 },
                 {
                   path: "/enterprise",
-                  title: "我的企业",
                   component: "./Enterprise/index",
+                },
+                {
+                  path: "/enterprise/detail",
+                  component: "./Enterprise/Operate/index",
                 },
                 {
                   path: "/deal",
