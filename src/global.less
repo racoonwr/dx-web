@@ -549,8 +549,27 @@ body {
   transition: opacity 300ms, transform 300ms;
 }
 
+/*page-loading*/
+.page-loading {
+  text-align: center;
+  padding: 100px 0;
+  img {
+    width: 48px;
+    height: 48px;
+  }
+  > div {
+    padding: 24px 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+
 /*List & inputitem common style*/
 .list-with-input-item {
+  .am-list-header {
+    padding-left: 0;
+    padding-right: 0;
+  }
   .am-list-body {
     border-top: none !important;
     border-bottom: none !important;

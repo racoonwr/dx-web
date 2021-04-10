@@ -1,4 +1,5 @@
 import px2rem from "postcss-px2rem-exclude";
+
 // ref: https://umijs.org/config/
 const config = {
   hash: true,
@@ -8,7 +9,7 @@ const config = {
   antd: {},
   dva: {},
   dynamicImport: {
-    // loading: <div>11111</div>,
+    loading: "@/components/loading",
   },
   inlineLimit: 20000,
   metas: [
