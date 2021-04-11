@@ -49,7 +49,7 @@ request.interceptors.request.use((url, options) => {
     ...options,
   };
 
-  const token = window.localStorage.getItem("token");
+  const token = window.localStorage.getItem("*t*o*k*e*n*");
   if (token && token !== "null" && token !== "undefined") {
     params.headers.token = token;
   }
@@ -62,13 +62,15 @@ request.interceptors.request.use((url, options) => {
 // response拦截器, 处理response
 request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
-  if (data.code === "00000") {
+
+  if (data.errorCode) {
+    if (!options.noMessage) {
+      Toast.info(data.description || "未知错误");
+    }
+    return response;
+  } else {
     return data;
   }
-  if (!options.noMessage) {
-    Toast.info(data?.message || data?.error);
-  }
-  return response;
 });
 
 export default request;

@@ -1,26 +1,33 @@
 import React from "react";
 import { List, InputItem, Button } from "antd-mobile";
-import { history } from "umi";
-import { useRequest } from "ahooks";
-import { login } from "./service";
+import { history, connect } from "umi";
+import { JSEncrypt } from "jsencrypt";
 
 import "./index.less";
 
+const encrypt = new JSEncrypt();
+
+const publicKey =
+  "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD\n" +
+  "2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==";
+
+encrypt.setPublicKey(publicKey);
+
 const FIELDITEM = [
   {
-    name: "name",
+    name: "phone",
     placeholder: "请输入用户名",
     clear: true,
   },
   {
-    name: "pwd",
+    name: "password",
     placeholder: "请输入登录密码",
     clear: true,
     type: "password",
   },
 ];
 
-export default () => {
+export default connect()((props) => {
   const [fields, setFields] = React.useState({});
   const handleFieldChange = React.useCallback(
     (key) => (val) => {
@@ -40,13 +47,16 @@ export default () => {
     );
   }, [fields]);
 
-  const { run, loading } = useRequest(login, {
-    manual: true,
-  });
-
   const handleLogin = React.useCallback(() => {
-    run(fields);
-  }, []);
+    const { password, ...rest } = fields;
+    props.dispatch({
+      type: "user/login",
+      payload: {
+        ...rest,
+        password: encrypt.encrypt(password),
+      },
+    });
+  }, [fields]);
 
   const handleRegister = React.useCallback(() => {
     history.push("/register");
@@ -87,4 +97,4 @@ export default () => {
       </div>
     </div>
   );
-};
+});
