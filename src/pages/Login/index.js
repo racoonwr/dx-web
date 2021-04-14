@@ -1,17 +1,10 @@
 import React from "react";
 import { List, InputItem, Button } from "antd-mobile";
 import { history, connect } from "umi";
-import { JSEncrypt } from "jsencrypt";
+
+import SercretButton from "../../components/sercretButton";
 
 import "./index.less";
-
-const encrypt = new JSEncrypt();
-
-const publicKey =
-  "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD\n" +
-  "2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==";
-
-encrypt.setPublicKey(publicKey);
 
 const FIELDITEM = [
   {
@@ -27,7 +20,12 @@ const FIELDITEM = [
   },
 ];
 
-export default connect()((props) => {
+export default connect(({ loading }) => {
+  console.log(123, loading);
+  return {
+    loading: loading.effects["user/login"],
+  };
+})((props) => {
   const [fields, setFields] = React.useState({});
   const handleFieldChange = React.useCallback(
     (key) => (val) => {
@@ -47,16 +45,20 @@ export default connect()((props) => {
     );
   }, [fields]);
 
-  const handleLogin = React.useCallback(() => {
-    const { password, ...rest } = fields;
-    props.dispatch({
-      type: "user/login",
-      payload: {
-        ...rest,
-        password: encrypt.encrypt(password),
-      },
-    });
-  }, [fields]);
+  const handleLogin = React.useCallback(
+    (encrypt) => {
+      const { password, ...rest } = fields;
+      console.log(fields);
+      props.dispatch({
+        type: "user/login",
+        payload: {
+          ...rest,
+          password: encrypt.encrypt(password),
+        },
+      });
+    },
+    [fields]
+  );
 
   const handleRegister = React.useCallback(() => {
     history.push("/register");
@@ -83,14 +85,13 @@ export default connect()((props) => {
             );
           })}
         </List>
-        <Button
+        <SercretButton
           disabled={disableLogin}
-          loading={loading}
+          loading={props.loading}
           type={"primary"}
           onClick={handleLogin}
-        >
-          登录
-        </Button>
+          children={"登录"}
+        />
         <div className={"user-register-btn"}>
           <span onClick={handleRegister}>注册账号</span>
         </div>

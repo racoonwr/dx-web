@@ -1,16 +1,11 @@
 import request from "./request";
 
 /**登录 */
-export const login = {
-  key: () => {
-    return "";
-  },
-  run: () => {
-    request.post("/auth/login", {
-      method: "POST",
-      data,
-    });
-  },
+export const login = (data) => {
+  return request.post("/auth/login", {
+    method: "POST",
+    data,
+  });
 };
 
 /*获取user信息*/

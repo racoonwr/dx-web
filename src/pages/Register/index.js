@@ -6,6 +6,7 @@ import { useRequest } from "ahooks";
 import { regs } from "../../utils/tools";
 
 import Captcha from "../../components/captcha";
+import SercretButton from "../../components/sercretButton";
 
 import "./index.less";
 
@@ -14,34 +15,34 @@ const FIELDITEMS = [
     name: "name",
     label: "用户名",
     placeholder: "请输入用户名",
-    maxLength: 16
+    maxLength: 16,
   },
   {
-    name: "pwd",
+    name: "password",
     label: "密码",
     placeholder: "请输入密码",
     type: "password",
-    maxLength: 16
+    maxLength: 16,
   },
   {
-    name: "name2",
+    name: "userName",
     label: "经办人姓名",
     placeholder: "请输入经办人姓名",
-    maxLength: 16
+    maxLength: 16,
   },
   {
-    name: "mobile",
+    name: "phone",
     label: "经办人电话",
     placeholder: "请输入经办人电话",
-    type: "phone"
+    type: "phone",
   },
   {
-    name: "captcha",
+    name: "code",
     label: "验证码",
     placeholder: "请输入验证码",
     type: "number",
-    maxLength: 16
-  }
+    maxLength: 16,
+  },
 ];
 
 export default () => {
@@ -58,7 +59,7 @@ export default () => {
       //错误炎症 error or toast
       setFields((prev) => ({
         ...prev,
-        [key]: val
+        [key]: val,
       }));
     },
     []
@@ -66,39 +67,41 @@ export default () => {
   const disableRegister = React.useMemo(() => {
     return (
       Object.keys(fields)
-      .map((e) => fields[e])
-      .filter((e) => !!e).length < FIELDITEMS.length
+        .map((e) => fields[e])
+        .filter((e) => !!e).length < FIELDITEMS.length
     );
   }, [fields]);
 
   //提交
   const { run, loading } = useRequest(register, {
     manual: true,
-    onSuccess: res => {
-      Modal.alert("恭喜您，注册成功！", null, [{
-        text: "确定",
-        onPress: () => {
-          history.replace("/index");
-        }
-      }]);
-    }
+    onSuccess: (res) => {
+      Modal.alert("恭喜您，注册成功！", null, [
+        {
+          text: "确定",
+          onPress: () => {
+            history.replace("/index");
+          },
+        },
+      ]);
+    },
   });
-  const handleRegister = React.useCallback(() => {
-    const { mobile } = fields;
-    console.log(fields);
-    const _mobile = mobile.replace(/\s+/g, "");
-    if (!regs.mobile.test(_mobile)) {
-      Toast.fail("手机号验证错误,请重新输入.");
-      return;
-    }
-    Modal.alert("恭喜您，注册成功！", null, [{
-      text: "确定",
-      onPress: () => {
-        history.replace("/index");
+  const handleRegister = React.useCallback(
+    (encrypt) => {
+      const { phone, password, ...rest } = fields;
+      const _phone = phone.replace(/\s+/g, "");
+      if (!regs.mobile.test(_phone)) {
+        Toast.fail("手机号验证错误,请重新输入.");
+        return;
       }
-    }]);
-    // run(fields);
-  }, [fields]);
+      run({
+        ...rest,
+        phone: _phone,
+        password: encrypt.encrypt(password),
+      });
+    },
+    [fields]
+  );
 
   return (
     <div className={"page"}>
@@ -133,14 +136,13 @@ export default () => {
         </List>
         <div className={"register-operate"}>
           <Button onClick={handleBack}>返回</Button>
-          <Button
+          <SercretButton
             disabled={disableRegister}
             loading={loading}
             type={"primary"}
             onClick={handleRegister}
-          >
-            提交
-          </Button>
+            children="提交"
+          />
         </div>
       </div>
     </div>

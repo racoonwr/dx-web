@@ -27,6 +27,7 @@ const errorHandler = (error) => {
       description: response.statusText,
     });
   } else if (!response) {
+    Toast.info("网络异常");
     console.info({
       description: "您的网络发生异常，无法连接服务器",
       message: "网络异常",
@@ -40,7 +41,7 @@ const errorHandler = (error) => {
  */
 const request = extend({
   errorHandler,
-  prefix: `${process.env.apiUrl}/`,
+  prefix: process.env.apiUrl,
   credentials: "include", // 默认请求是否带上cookie
 });
 
@@ -62,7 +63,7 @@ request.interceptors.request.use((url, options) => {
 // response拦截器, 处理response
 request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
-
+  console.log(123, data);
   if (data.errorCode) {
     if (!options.noMessage) {
       Toast.info(data.description || "未知错误");

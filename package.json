@@ -1,8 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
-    "build": "umi build",
+    "start": "cross-env UMI_ENV=test umi dev",
+    "build:pre": "cross-env UMI_ENV=pre umi build",
+    "build:test": "cross-env UMI_ENV=test umi build",
+    "build:prod": "cross-env UMI_ENV=prod umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
@@ -21,6 +23,7 @@
     "ahooks": "^2.9.4",
     "antd-mobile": "^2.3.4",
     "babel-plugin-import": "^1.13.3",
+    "cross-env": "^7.0.3",
     "js-base64": "^3.6.0",
     "jsencrypt": "^3.1.0",
     "lib-flexible": "^0.3.2",
