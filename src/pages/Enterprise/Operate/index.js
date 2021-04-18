@@ -5,6 +5,7 @@ import { createForm } from "rc-form";
 import { FORMA, FORMB } from "./constant";
 import { useRequest } from "ahooks";
 import { creat } from "./service";
+import { replaceSpace } from "../../../utils/tools"
 
 import "./index.less";
 
@@ -36,9 +37,26 @@ export default createForm()((props) => {
   }, [queryId]);
 
   const handleSubmit = React.useCallback(() => {
-    validateFields().then(vals => {
-      console.log(vals);
-      run(vals);
+    validateFields((error) => {
+      if (error) {
+        const _error = Object.keys(error);
+        if (_error.length) {
+          Toast.info(error[_error[0]]["errors"][0]["message"]);
+          return;
+        }
+      }
+    }).then((accountNumber, contactsPhone, phone, ...rest) => {
+      console.log({
+        accountNumber,
+        contactsPhone,
+        phone, ...rest
+      });
+      run({
+        ...rest,
+        accountNumber: replaceSpace(accountNumber),
+        contactsPhone: replaceSpace(contactsPhone),
+        phone: replaceSpace(phone),
+      });
     });
   }, []);
 
@@ -52,7 +70,10 @@ export default createForm()((props) => {
           {FORMA.map((e) => {
             return (
               <InputItem
-                {...getFieldProps(e.name)}
+                key={e.name}
+                {...getFieldProps(e.name, {
+                  rules: e.rules
+                })}
                 type={e.type}
                 placeholder={e.placeholder}
               >
@@ -68,7 +89,10 @@ export default createForm()((props) => {
           {FORMB.map((e) => {
             return (
               <InputItem
-                {...getFieldProps(e.name)}
+                key={e.name}
+                {...getFieldProps(e.name, {
+                  rules: e.rules
+                })}
                 type={e.type}
                 placeholder={e.placeholder}
               >

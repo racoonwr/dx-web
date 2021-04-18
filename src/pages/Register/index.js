@@ -3,7 +3,7 @@ import { history } from "umi";
 import { Button, InputItem, List, Toast, Modal } from "antd-mobile";
 import { register } from "./service";
 import { useRequest } from "ahooks";
-import { regs } from "../../utils/tools";
+import { regs, replaceSpace } from "../../utils/tools";
 
 import Captcha from "../../components/captcha";
 import SercretButton from "../../components/sercretButton";
@@ -91,7 +91,7 @@ export default () => {
   });
   //
   const testMobile = React.useCallback((val = "") => {
-    const _phone = val.replace(/\s+/g, "");
+    const _phone = replaceSpace(val);
     return regs.mobile.test(_phone) ? _phone : false;
   }, []);
 
