@@ -10,10 +10,10 @@ const Index = (props) => {
 
   const onGetCaptcha = React.useCallback(async (mobile) => {
     const result = await getCaptchaCode({
-      mobile,
+      phone: mobile,
     });
-
-    if (result && result.code === "00000") {
+    console.log(result)
+    if (result && result.success) {
       Toast.info("验证码发送成功，请在手机查看。");
       setTiming(true);
     }
