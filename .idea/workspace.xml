@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f1bb810b-f572-4f45-933f-07306c9b4e59" name="Default Changelist" comment="index page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Enterprise/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Enterprise/service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Enterprise/Operate/constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Enterprise/Operate/constant.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Enterprise/Operate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Enterprise/Operate/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +20,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/pages/Enterprise/Operate" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -27,11 +28,12 @@
     <property name="ts.external.directory.path" value="D:\ProgFile\WebStorm 2018.3.6\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Administrator\Desktop\dx-web\src\pages\Enterprise" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Lu\Desktop\dx-web\src\pages\Login" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages/Enterprise/Operate" />
+      <recent name="C:\Users\Administrator\Desktop\dx-web\src\pages\Enterprise" />
     </key>
   </component>
   <component name="SvnConfiguration">

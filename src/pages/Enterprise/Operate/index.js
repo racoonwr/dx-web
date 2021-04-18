@@ -1,10 +1,10 @@
 import React from "react";
 import { history } from "umi";
-import { InputItem, List, Button } from "antd-mobile";
+import { InputItem, List, Button, Toast } from "antd-mobile";
 import { createForm } from "rc-form";
 import { FORMA, FORMB } from "./constant";
 import { useRequest } from "ahooks";
-import { getList } from "../service";
+import { creat } from "./service";
 
 import "./index.less";
 
@@ -16,16 +16,16 @@ export default createForm()((props) => {
   const queryId = history.location.query.id;
 
   const {
-    form: { getFieldProps },
+    form: { getFieldProps }
   } = props;
 
-  const { run: getDetailRun, loading: getDetailLoading } = useRequest(
-    getList,
+  const { run, loading } = useRequest(
+    creat,
     {
       manual: true,
       onSuccess: (res) => {
         //set fields value
-      },
+      }
     }
   );
 
@@ -37,6 +37,10 @@ export default createForm()((props) => {
 
   const handleSubmit = React.useCallback(() => {
     console.log(props.form);
+    run({
+      ...props.form
+    });
+
   }, []);
 
   return (
@@ -77,7 +81,7 @@ export default createForm()((props) => {
         <div className={"enterprise-operate-btns"}>
           <Button>返回</Button>
           <Button
-            // loading={loading}
+            loading={loading}
             type={"primary"}
             onClick={handleSubmit}
           >
