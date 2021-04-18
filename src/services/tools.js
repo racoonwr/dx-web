@@ -2,8 +2,8 @@ import request from "./request";
 
 /*获取验证码*/
 export const getCaptchaCode = (params) => {
-  return request("/code", {
-    method: "POST",
+  return request("/auth/sendSms/{phone}", {
+    method: "GET",
     data: params,
   });
 };

@@ -9,10 +9,9 @@ const UserModel = {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
-      console.log("login数据未统一 error 和 sucess 无法判定", response);
-      if (response && response.code === "00000") {
+      if (response && response.success) {
         Toast.success("登录成功");
-        window.localStorage.setItem("*t*o*k*e*n*", response.token);
+        window.localStorage.setItem("*t*o*k*e*n*", (response.data || {}).token);
       }
     },
     *getUser(_, { call, put }) {

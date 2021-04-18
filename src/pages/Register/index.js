@@ -77,15 +77,17 @@ export default () => {
     manual: true,
     onSuccess: (res) => {
       console.log("onsuccess", res);
-      Modal.alert("恭喜您，注册成功！", null, [
-        {
-          text: "确定",
-          onPress: () => {
-            history.replace("/index");
-          }
-        }
-      ]);
-    }
+      if(res && res.success) {
+        Modal.alert("恭喜您，注册成功！", null, [
+          {
+            text: "确定",
+            onPress: () => {
+              history.replace("/index");
+            },
+          },
+        ]);
+      }
+    },
   });
   //
   const testMobile = React.useCallback((val = "") => {

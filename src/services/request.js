@@ -70,7 +70,10 @@ request.interceptors.response.use(async (response, options) => {
     }
     return response;
   } else {
-    return data;
+    return {
+      success: true,
+      data: data
+    };
   }
 });
 
