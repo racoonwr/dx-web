@@ -133,7 +133,7 @@ export default () => {
                     <Captcha
                       disabled={!testMobile(fields.phone)}
                       className={"register-captcha"}
-                      mobile={fields["mobile"]}
+                      mobile={fields["phone"]}
                     />
                   ) : null
                 }
