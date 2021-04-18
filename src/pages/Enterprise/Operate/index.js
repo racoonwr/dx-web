@@ -16,7 +16,7 @@ export default createForm()((props) => {
   const queryId = history.location.query.id;
 
   const {
-    form: { getFieldProps }
+    form: { getFieldProps, validateFields }
   } = props;
 
   const { run, loading } = useRequest(
@@ -36,11 +36,10 @@ export default createForm()((props) => {
   }, [queryId]);
 
   const handleSubmit = React.useCallback(() => {
-    console.log(props.form);
-    run({
-      ...props.form
+    validateFields().then(vals => {
+      console.log(vals);
+      run(vals);
     });
-
   }, []);
 
   return (
