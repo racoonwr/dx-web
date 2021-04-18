@@ -4,7 +4,7 @@ const CommonModel = {
   effects: {
     *getAnyListView({ key, func, list, payload, callback }, { call, put }) {
       const response = yield call(func, payload);
-      if (response && response.code) {
+      if (response && response.success) {
         let newData = list || [];
         if (payload.pageNumber * 1 !== 1) {
           newData = newData.concat(response.data.data);

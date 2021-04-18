@@ -13,8 +13,8 @@ const errorHandler = (error) => {
         history.replace({
           pathname: "/login",
           query: {
-            redirect: Base64.encodeURI(redirect)
-          }
+            redirect: Base64.encodeURI(redirect),
+          },
         });
       }
     }
@@ -24,7 +24,7 @@ const errorHandler = (error) => {
     const { status, url } = response;
     console.info({
       message: `请求错误 ${status}: ${url}`,
-      description: response.statusText
+      description: response.statusText,
     });
   }
   // else if (!response) {
@@ -43,12 +43,12 @@ const errorHandler = (error) => {
 const request = extend({
   errorHandler,
   prefix: process.env.apiUrl,
-  credentials: "include" // 默认请求是否带上cookie
+  credentials: "include", // 默认请求是否带上cookie
 });
 
 request.interceptors.request.use((url, options) => {
   const params = {
-    ...options
+    ...options,
   };
 
   const token = window.localStorage.getItem("*t*o*k*e*n*");
@@ -57,23 +57,34 @@ request.interceptors.request.use((url, options) => {
   }
   return {
     url,
-    options: params
+    options: params,
   };
 });
 
 // response拦截器, 处理response
 request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
-  console.log("响应数据", data);
+
+  if (data.status === 401) {
+    Toast.info(data.message || data.error);
+    if (history.location.pathname !== "/login") {
+      history.replace("/login");
+    }
+    return response;
+  }
+
+  //error数据
   if (data.error_code) {
+    //不显示toast
     if (!options.noMessage) {
       Toast.info(data.description || "未知错误");
     }
-    return response;
+    return data;
   } else {
+    //正常数据
     return {
       success: true,
-      data: data
+      data: data,
     };
   }
 });

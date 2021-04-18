@@ -13,9 +13,10 @@ class SecurityLayout extends React.Component {
     const { dispatch } = this.props;
 
     if (dispatch) {
-      dispatch({
-        type: "user/getUser",
-      });
+      //先不加
+      // dispatch({
+      //   type: "user/getUser",
+      // });
     }
   }
 
