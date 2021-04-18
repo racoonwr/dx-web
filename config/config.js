@@ -90,6 +90,11 @@ const config = {
                       component: "./Enterprise/index",
                     },
                     {
+                      path: "/enterprise/add",
+                      title: "新增企业",
+                      component: "./Enterprise/Operate/index",
+                    },
+                    {
                       path: "/enterprise/detail",
                       component: "./Enterprise/Operate/index",
                     },
