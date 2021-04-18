@@ -72,7 +72,6 @@ request.interceptors.response.use(async (response, options) => {
     }
     return response;
   }
-
   //error数据
   if (data.error_code) {
     //不显示toast
@@ -83,8 +82,8 @@ request.interceptors.response.use(async (response, options) => {
   } else {
     //正常数据
     return {
+      ...data,
       success: true,
-      data: data,
     };
   }
 });

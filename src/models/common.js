@@ -5,7 +5,7 @@ const CommonModel = {
     * getAnyListView({ key, func, list, payload, callback }, { call, put }) {
       const response = yield call(func, payload);
       if (response && response.success) {
-        const prevData = response.data.data && Array.isArray(response.data.data) ? response.data.data : [];
+        const prevData = response.data && Array.isArray(response.data) ? response.data : [];
         let newData = list || [];
         if (payload.pageNumber * 1 !== 1) {
           newData = newData.concat(prevData);

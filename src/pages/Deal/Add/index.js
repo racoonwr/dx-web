@@ -29,7 +29,6 @@ const FIELDITEMS = [
   }
 ];
 
-let PICKER_DATA = [];
 let COMPANY_DATA = [];
 
 export default () => {
@@ -66,20 +65,21 @@ export default () => {
     }
   });
 
-  const { run: runContractType, loading: roadingContractType } = useRequest(getContractType, {
+  const { run: runContractType, loading: roadingContractType, data: contractTypeData } = useRequest(getContractType, {
     manual: true,
-    onSuccess: (res) => {
-      console.log("getContractType", res);
-      const types = res.data.data;
-      PICKER_DATA = Object.keys(types).filter(typeKey => {
-        return {
-          label: types[typeKey],
-          value: typeKey
-        };
-      });
+    initialData: [],
+    formatResult: (res) => {
+      if( res && res.success) {
+        const _data = res.data || {};
+        return Object.keys(_data).map(e => ({
+          value: e,
+          label : _data[e]
+        }))
+      }else {
+        return []
+      }
     }
   });
-
 
   //提交
   const { run, loading } = useRequest(() => {
@@ -128,7 +128,7 @@ export default () => {
               <Picker
                 key={_key}
                 cols={1}
-                data={PICKER_DATA}
+                data={contractTypeData}
                 value={fields[_key]}
                 onChange={handleFieldChange(_key)}
                 extra={<span className="placeholder">{e.placeholder}</span>}
