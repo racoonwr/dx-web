@@ -1,8 +1,6 @@
 import React from "react";
 import QueueAnim from "rc-queue-anim";
 import { history } from "umi";
-import { Button, InputItem, List, Toast, Modal } from "antd-mobile";
-import { useRequest } from "ahooks";
 
 import "./index.less";
 

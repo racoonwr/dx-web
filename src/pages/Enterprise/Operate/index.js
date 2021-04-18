@@ -3,7 +3,7 @@ import { InputItem, List, Button } from "antd-mobile";
 import { createForm } from "rc-form";
 import { FORMA, FORMB } from "./constant";
 import { useRequest } from "ahooks";
-import { getDetail } from "../service";
+import { getList } from "../service";
 
 import "./index.less";
 
@@ -19,7 +19,7 @@ export default createForm()((props) => {
   } = props;
 
   const { run: getDetailRun, loading: getDetailLoading } = useRequest(
-    getDetail,
+    getList,
     {
       manual: true,
       onSuccess: (res) => {

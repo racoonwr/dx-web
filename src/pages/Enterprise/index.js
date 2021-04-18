@@ -1,6 +1,9 @@
 import React from "react";
 import { connect, history } from "umi";
 import { ListView, Card, Icon, Button, Modal, List } from "antd-mobile";
+import { useRequest } from "ahooks";
+import { getList } from "./service";
+
 
 import "./index.less";
 
@@ -11,7 +14,7 @@ export default connect(
     return {
       myEnterpriseList,
       myEnterpriseTotal,
-      loading,
+      loading
     };
   }
 )((props) => {
@@ -23,8 +26,18 @@ export default connect(
     dispatch,
     myEnterpriseList = [],
     myEnterpriseTotal = 0,
-    loading,
+    loading
   } = props;
+
+  const { run: getListRun, loading: getListLoading } = useRequest(
+    getList,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        //set fields value
+      },
+    }
+  );
 
   /**add */
   const handleAdd = React.useCallback(() => {
@@ -36,8 +49,8 @@ export default connect(
       history.push({
         pathname: path,
         query: {
-          id,
-        },
+          id
+        }
       });
     },
     []
@@ -74,7 +87,7 @@ export default connect(
   const fetchIng = loading.effects["common/getAnyListView"];
   const [pageNumber, setPageNumber] = React.useState(1);
   const dataSource = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
+    rowHasChanged: (row1, row2) => row1 !== row2
   });
 
   const onEndReached = () => {
@@ -89,12 +102,13 @@ export default connect(
     dispatch({
       key: "myEnterprise",
       type: "common/getAnyListView",
-      func: () => {},
+      func: () => {
+      },
       list: myEnterpriseList,
       payload: {
         pageSize,
-        pageNumber,
-      },
+        pageNumber
+      }
     });
   }, [pageNumber]);
 
@@ -109,6 +123,7 @@ export default connect(
         </div>
         <ListView
           className="deal-list"
+          loading={props.loading}
           // dataSource={dataSource.cloneWithRows(myDealList)}
           dataSource={dataSource.cloneWithRows([{ id: 1 }])}
           renderFooter={() => (
@@ -117,16 +132,16 @@ export default connect(
                 padding: 10,
                 fontSize: "0.35rem",
                 textAlign: "center",
-                color: "rgba(17, 31, 44, 0.5)",
+                color: "rgba(17, 31, 44, 0.5)"
               }}
             >
               {pageNumber > 1 &&
-                pageSize * pageNumber > myEnterpriseTotal &&
-                "到底了～"}
+              pageSize * pageNumber > myEnterpriseTotal &&
+              "到底了～"}
               {!fetchIng &&
-                myEnterpriseTotal === 0 &&
-                pageNumber === 1 &&
-                "暂无数据"}
+              myEnterpriseTotal === 0 &&
+              pageNumber === 1 &&
+              "暂无数据"}
             </div>
           )}
           renderRow={row}
