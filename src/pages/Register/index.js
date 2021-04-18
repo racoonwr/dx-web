@@ -15,34 +15,34 @@ const FIELDITEMS = [
     name: "name",
     label: "用户名",
     placeholder: "请输入用户名",
-    maxLength: 16,
+    maxLength: 16
   },
   {
     name: "password",
     label: "密码",
     placeholder: "请输入密码",
     type: "password",
-    maxLength: 16,
+    maxLength: 16
   },
   {
     name: "userName",
     label: "经办人姓名",
     placeholder: "请输入经办人姓名",
-    maxLength: 16,
+    maxLength: 16
   },
   {
     name: "phone",
     label: "经办人电话",
     placeholder: "请输入经办人电话",
-    type: "phone",
+    type: "phone"
   },
   {
     name: "code",
     label: "验证码",
     placeholder: "请输入验证码",
     type: "number",
-    maxLength: 16,
-  },
+    maxLength: 16
+  }
 ];
 
 export default () => {
@@ -59,7 +59,7 @@ export default () => {
       //错误炎症 error or toast
       setFields((prev) => ({
         ...prev,
-        [key]: val,
+        [key]: val
       }));
     },
     []
@@ -67,8 +67,8 @@ export default () => {
   const disableRegister = React.useMemo(() => {
     return (
       Object.keys(fields)
-        .map((e) => fields[e])
-        .filter((e) => !!e).length < FIELDITEMS.length
+      .map((e) => fields[e])
+      .filter((e) => !!e).length < FIELDITEMS.length
     );
   }, [fields]);
 
@@ -76,15 +76,16 @@ export default () => {
   const { run, loading } = useRequest(register, {
     manual: true,
     onSuccess: (res) => {
+      console.log("onsuccess", res);
       Modal.alert("恭喜您，注册成功！", null, [
         {
           text: "确定",
           onPress: () => {
             history.replace("/index");
-          },
-        },
+          }
+        }
       ]);
-    },
+    }
   });
   const handleRegister = React.useCallback(
     (encrypt) => {
@@ -97,7 +98,7 @@ export default () => {
       run({
         ...rest,
         phone: _phone,
-        password: encrypt.encrypt(password),
+        password: encrypt.encrypt(password)
       });
     },
     [fields]

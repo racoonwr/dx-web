@@ -63,8 +63,8 @@ request.interceptors.request.use((url, options) => {
 // response拦截器, 处理response
 request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
-  console.log(123, data);
-  if (data.errorCode) {
+  console.log("响应数据", data);
+  if (data.error_code) {
     if (!options.noMessage) {
       Toast.info(data.description || "未知错误");
     }
