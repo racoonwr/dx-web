@@ -53,7 +53,7 @@ request.interceptors.request.use((url, options) => {
 
   const token = window.localStorage.getItem("*t*o*k*e*n*");
   if (token && token !== "null" && token !== "undefined") {
-    params.headers.token = token;
+    params.headers.Authorization = token;
   }
   return {
     url,
