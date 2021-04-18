@@ -76,14 +76,16 @@ export default () => {
   const { run, loading } = useRequest(register, {
     manual: true,
     onSuccess: (res) => {
-      Modal.alert("恭喜您，注册成功！", null, [
-        {
-          text: "确定",
-          onPress: () => {
-            history.replace("/index");
+      if(res && res.success) {
+        Modal.alert("恭喜您，注册成功！", null, [
+          {
+            text: "确定",
+            onPress: () => {
+              history.replace("/index");
+            },
           },
-        },
-      ]);
+        ]);
+      }
     },
   });
   //
