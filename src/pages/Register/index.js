@@ -77,29 +77,29 @@ export default () => {
     manual: true,
     onSuccess: (res) => {
       console.log("onsuccess", res);
-      if(res && res.success) {
+      if (res && res.success) {
         Modal.alert("恭喜您，注册成功！", null, [
           {
             text: "确定",
             onPress: () => {
-              history.replace("/index");
-            },
-          },
+              history.replace("/login");
+            }
+          }
         ]);
       }
-    },
+    }
   });
   //
   const testMobile = React.useCallback((val = "") => {
     const _phone = val.replace(/\s+/g, "");
-    return regs.mobile.test(_phone) ? _phone : false
+    return regs.mobile.test(_phone) ? _phone : false;
   }, []);
 
   const handleRegister = React.useCallback(
     (encrypt) => {
       const { phone, password, ...rest } = fields;
       const _phone = testMobile(phone);
-      if(!_phone) {
+      if (!_phone) {
         Toast.fail("手机号验证错误,请重新输入.");
         return;
       }
