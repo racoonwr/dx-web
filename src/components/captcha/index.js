@@ -9,10 +9,8 @@ const Index = (props) => {
   const [timing, setTiming] = React.useState(false);
 
   const onGetCaptcha = React.useCallback(async (mobile) => {
-    const result = await getCaptchaCode({
-      phone: mobile,
-    });
-    console.log(result)
+    const result = await getCaptchaCode(mobile);
+    console.log(result);
     if (result && result.success) {
       Toast.info("验证码发送成功，请在手机查看。");
       setTiming(true);
