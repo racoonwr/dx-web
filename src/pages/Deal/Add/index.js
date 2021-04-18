@@ -7,36 +7,30 @@ import {
   Toast,
   Modal,
   Picker,
-  Icon,
+  Icon
 } from "antd-mobile";
 import { useRequest } from "ahooks";
+import { getCompanyList, getContractType } from "./service";
 
 import "./index.less";
+import { getList } from "../../Enterprise/service";
 
 const FIELDITEMS = [
   {
-    name: "name",
+    name: "company",
     label: "签约主体",
-    placeholder: "请输入用户名",
-    maxLength: 16,
+    placeholder: "请选择签约主体",
+    maxLength: 16
   },
   {
     name: "type",
     label: "签约类型",
-    placeholder: "请选择签约类型",
-  },
+    placeholder: "请选择签约类型"
+  }
 ];
 
-const PICKER_DATA = [
-  {
-    label: "年度托盘",
-    value: "年度托盘",
-  },
-  {
-    label: "居间服务",
-    value: "居间服务",
-  },
-];
+let PICKER_DATA = [];
+let COMPANY_DATA = [];
 
 export default () => {
   //返回
@@ -45,14 +39,14 @@ export default () => {
   }, []);
 
   //数据
-  const [fields, setFields] = React.useState({});
+  const [fields, setFields, tpyePickData] = React.useState({});
   const handleFieldChange = React.useCallback(
     (key) => (val) => {
       console.log(key, val);
       //错误炎症 error or toast
       setFields((prev) => ({
         ...prev,
-        [key]: val,
+        [key]: val
       }));
     },
     []
@@ -60,13 +54,36 @@ export default () => {
   const disableAdd = React.useMemo(() => {
     return (
       Object.keys(fields)
-        .map((e) => fields[e])
-        .filter((e) => !!e).length < FIELDITEMS.length
+      .map((e) => fields[e])
+      .filter((e) => !!e).length < FIELDITEMS.length
     );
   }, [fields]);
 
+  const { run: runCompany, loading: roadingCompany } = useRequest(getCompanyList, {
+    manual: true,
+    onSuccess: (res) => {
+      console.log("getCompanyList", res);
+    }
+  });
+
+  const { run: runContractType, loading: roadingContractType } = useRequest(getContractType, {
+    manual: true,
+    onSuccess: (res) => {
+      console.log("getContractType", res);
+      const types = res.data.data;
+      PICKER_DATA = Object.keys(types).filter(typeKey => {
+        return {
+          label: types[typeKey],
+          value: typeKey
+        };
+      });
+    }
+  });
+
+
   //提交
-  const { run, loading } = useRequest(() => {}, {
+  const { run, loading } = useRequest(() => {
+  }, {
     manual: true,
     onSuccess: (res) => {
       Modal.alert("恭喜您，注册成功！", null, [
@@ -74,11 +91,14 @@ export default () => {
           text: "确定",
           onPress: () => {
             history.replace("/index");
-          },
-        },
+          }
+        }
       ]);
-    },
+    }
   });
+
+
+
   const handleAdd = React.useCallback(() => {
     console.log(fields);
     Modal.alert("提交申请成功！", null, [
@@ -86,11 +106,16 @@ export default () => {
         text: "确定",
         onPress: () => {
           // history.replace("/deal");
-        },
-      },
+        }
+      }
     ]);
     // run(fields);
   }, [fields]);
+
+  React.useEffect(() => {
+    runCompany({});
+    runContractType({});
+  }, []);
 
   return (
     <div className={"page"}>
@@ -111,19 +136,16 @@ export default () => {
                 <List.Item arrow="horizontal">{e.label}</List.Item>
               </Picker>
             ) : (
-              <InputItem
+              <Picker
                 key={_key}
-                type={e.type}
-                clear={true}
-                placeholder={e.placeholder}
-                maxLength={e.maxLength}
+                cols={1}
+                data={COMPANY_DATA}
                 value={fields[_key]}
-                className="input-right"
                 onChange={handleFieldChange(_key)}
-                extra={<Icon className="hidden am-list-arrow" type="right" />}
+                extra={<span className="placeholder">{e.placeholder}</span>}
               >
-                {e.label}
-              </InputItem>
+                <List.Item arrow="horizontal">{e.label}</List.Item>
+              </Picker>
             );
           })}
         </List>

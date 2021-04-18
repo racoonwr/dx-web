@@ -26,6 +26,8 @@ export default createForm()((props) => {
       manual: true,
       onSuccess: (res) => {
         //set fields value
+        console.log(res);
+        Toast.info("创建成功！");
       }
     }
   );
@@ -50,7 +52,7 @@ export default createForm()((props) => {
           return;
         }
       }
-    }).then((accountNumber, contactsPhone, phone, ...rest) => {
+    }).then(({ accountNumber, contactsPhone, phone, ...rest }) => {
       console.log({
         accountNumber,
         contactsPhone,

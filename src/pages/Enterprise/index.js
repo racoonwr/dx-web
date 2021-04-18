@@ -13,7 +13,7 @@ export default connect(
     return {
       myEnterpriseList,
       myEnterpriseTotal,
-      loading,
+      loading
     };
   }
 )((props) => {
@@ -21,7 +21,7 @@ export default connect(
     dispatch,
     myEnterpriseList = [],
     myEnterpriseTotal = 0,
-    loading,
+    loading
   } = props;
   console.log("props", props);
 
@@ -30,9 +30,9 @@ export default connect(
     return () => {
       dispatch({
         key: "myEnterprise",
-        type: "common/clearAnyListView",
-      })
-    }
+        type: "common/clearAnyListView"
+      });
+    };
   }, []);
 
   /**add */
@@ -45,8 +45,8 @@ export default connect(
       history.push({
         pathname: path,
         query: {
-          id,
-        },
+          id
+        }
       });
     },
     []
@@ -54,13 +54,13 @@ export default connect(
 
   /**row render */
   const row = (rowData) => {
-    console.log(rowData);
+    console.log("rowData", rowData);
     return (
       <div key={rowData.id}>
         <Card>
-          <Card.Header title="企业名称" extra={<span>企业名称</span>} />
+          <Card.Header title="企业名称" extra={<span>{rowData.name}</span>} />
           <Card.Body>
-            <div>内容</div>
+            {/*<div>内容</div>*/}
             <div className="operate">
               <Button inline type="primary" onClick={handleGo("/deal/add")}>
                 发起签约
@@ -83,7 +83,7 @@ export default connect(
   const fetchIng = loading.effects["common/getAnyListView"];
   const [pageNumber, setPageNumber] = React.useState(1);
   const dataSource = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
+    rowHasChanged: (row1, row2) => row1 !== row2
   });
 
   const onEndReached = () => {
@@ -102,8 +102,8 @@ export default connect(
       list: myEnterpriseList,
       payload: {
         pageSize,
-        pageNumber,
-      },
+        pageNumber
+      }
     });
   }, [pageNumber]);
 
@@ -126,16 +126,16 @@ export default connect(
                 padding: 10,
                 fontSize: "0.35rem",
                 textAlign: "center",
-                color: "rgba(17, 31, 44, 0.5)",
+                color: "rgba(17, 31, 44, 0.5)"
               }}
             >
               {pageNumber > 1 &&
-                pageSize * pageNumber > myEnterpriseTotal &&
-                "到底了～"}
+              pageSize * pageNumber > myEnterpriseTotal &&
+              "到底了～"}
               {!fetchIng &&
-                myEnterpriseTotal === 0 &&
-                pageNumber === 1 &&
-                "暂无数据"}
+              myEnterpriseTotal === 0 &&
+              pageNumber === 1 &&
+              "暂无数据"}
             </div>
           )}
           renderRow={row}

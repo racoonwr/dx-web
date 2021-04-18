@@ -3,6 +3,7 @@ import { connect, history } from "umi";
 import { ListView, Card, Icon, Button, Modal, List } from "antd-mobile";
 import { closest } from "../../utils/tools";
 import { useBoolean } from "ahooks";
+import { getList } from "./service";
 
 import "./index.less";
 
@@ -10,30 +11,30 @@ const pageSize = 10;
 
 const DEAL_DETAIL_KEYS = [
   {
-    label: "协议编号",
+    label: "协议编号"
   },
   {
-    label: "签约主体",
+    label: "签约主体"
   },
   {
-    label: "签约对象",
+    label: "签约对象"
   },
   {
-    label: "更新时间",
+    label: "更新时间"
   },
   {
-    label: "协议类型",
+    label: "协议类型"
   },
   {
-    label: "签约状态",
-  },
+    label: "签约状态"
+  }
 ];
 
 export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
   return {
     myDealList,
     myDealTotal,
-    loading,
+    loading
   };
 })((props) => {
   const { dispatch, myDealList = [], myDealTotal = 0, loading } = props;
@@ -65,7 +66,7 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
       setTrue();
       setModalState({
         id: id,
-        title: "1的详情",
+        title: "1的详情"
       });
     },
     []
@@ -99,7 +100,7 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
   const fetchIng = loading.effects["common/getAnyListView"];
   const [pageNumber, setPageNumber] = React.useState(1);
   const dataSource = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
+    rowHasChanged: (row1, row2) => row1 !== row2
   });
 
   const onEndReached = () => {
@@ -114,12 +115,12 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
     dispatch({
       key: "myDeal",
       type: "common/getAnyListView",
-      func: () => {},
+      func: getList,
       list: myDealList,
       payload: {
         pageSize,
-        pageNumber,
-      },
+        pageNumber
+      }
     });
   }, [pageNumber]);
 
@@ -146,12 +147,12 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
                 padding: 10,
                 fontSize: "0.35rem",
                 textAlign: "center",
-                color: "rgba(17, 31, 44, 0.5)",
+                color: "rgba(17, 31, 44, 0.5)"
               }}
             >
               {pageNumber > 1 &&
-                pageSize * pageNumber > myDealTotal &&
-                "到底了～"}
+              pageSize * pageNumber > myDealTotal &&
+              "到底了～"}
               {!fetchIng && myDealTotal === 0 && pageNumber === 1 && "暂无数据"}
             </div>
           )}
@@ -174,15 +175,15 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
             onPress: () => {
               console.log("ok");
               handleCancel();
-            },
+            }
           },
           {
             text: "下载",
             onPress: () => {
               console.log("下载");
               handleCancel();
-            },
-          },
+            }
+          }
         ]}
         wrapProps={{ onTouchStart: onWrapTouchStart }}
       >
