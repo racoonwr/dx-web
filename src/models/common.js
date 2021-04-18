@@ -5,30 +5,37 @@ const CommonModel = {
     *getAnyListView({ key, func, list, payload, callback }, { call, put }) {
       const response = yield call(func, payload);
       if (response && response.success) {
+        const prevData = Array.isArray(response.data) ? response.data : [];
         let newData = list || [];
         if (payload.pageNumber * 1 !== 1) {
-          newData = newData.concat(response.data.data);
+          newData = newData.concat(prevData);
           yield put({
             type: "setAnyListView",
             payload: {
               key,
               data: newData,
-              total: response.data.total,
+              total: newData.length,   //没有分页 直接用length
             },
           });
         } else {
           yield put({
-            key,
             type: "setAnyListView",
-            payload: response.data,
+            payload: {
+              key,
+              data: prevData,
+              total: prevData.length  //没有分页 直接用length
+            },
           });
         }
         if (callback) callback();
       }
     },
-    *clearAnyListView({ callback }, { put }) {
+    *clearAnyListView({ key, callback }, { put }) {
       yield put({
-        type: "clearAnyListView",
+        type: "clearSetAnyListView",
+        payload: {
+          key
+        }
       });
       if (callback) callback;
     },
@@ -38,10 +45,10 @@ const CommonModel = {
       return {
         ...state,
         [`${payload.key}List`]: payload.data || [],
-        [`${payload.key}Total`]: payload.total,
+        [`${payload.key}Total`]: payload.total || 0,
       };
     },
-    clearAnyListView(state) {
+    clearSetAnyListView(state, { payload }) {
       return {
         ...state,
         [`${payload.key}List`]: [],

@@ -1,4 +1,5 @@
 import React from "react";
+import { history } from "umi";
 import { InputItem, List, Button } from "antd-mobile";
 import { createForm } from "rc-form";
 import { FORMA, FORMB } from "./constant";
@@ -12,7 +13,7 @@ export default createForm()((props) => {
     document.title = "";
   }, []);
 
-  const queryId = history.query.id;
+  const queryId = history.location.query.id;
 
   const {
     form: { getFieldProps },

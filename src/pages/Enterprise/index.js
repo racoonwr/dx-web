@@ -17,17 +17,24 @@ export default connect(
     };
   }
 )((props) => {
-  React.useEffect(() => {
-    document.title = "";
-  }, []);
-
   const {
     dispatch,
     myEnterpriseList = [],
     myEnterpriseTotal = 0,
     loading,
   } = props;
-  console.log("0000", props);
+  console.log("props", props);
+
+  React.useEffect(() => {
+    document.title = "";
+    return () => {
+      dispatch({
+        key: "myEnterprise",
+        type: "common/clearAnyListView",
+      })
+    }
+  }, []);
+
   /**add */
   const handleAdd = React.useCallback(() => {
     history.push("/enterprise/add");
@@ -61,7 +68,7 @@ export default connect(
               <Button
                 inline
                 type="primary"
-                onClick={handleGo("/enterprise/detail")}
+                onClick={handleGo(`/enterprise/detail`, rowData.id)}
               >
                 查看详情
               </Button>
@@ -110,10 +117,9 @@ export default connect(
           </Button>
         </div>
         <ListView
-          className="deal-list"
+          className="enterprise-list"
           loading={props.loading}
-          // dataSource={dataSource.cloneWithRows(myDealList)}
-          dataSource={dataSource.cloneWithRows([{ id: 1 }])}
+          dataSource={dataSource.cloneWithRows(myEnterpriseList)}
           renderFooter={() => (
             <div
               style={{
