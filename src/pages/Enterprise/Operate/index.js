@@ -5,7 +5,7 @@ import { createForm } from "rc-form";
 import { FORMA, FORMB } from "./constant";
 import { useRequest } from "ahooks";
 import { creat } from "./service";
-import { replaceSpace } from "../../../utils/tools"
+import { replaceSpace } from "../../../utils/tools";
 
 import "./index.less";
 
@@ -32,16 +32,21 @@ export default createForm()((props) => {
 
   React.useEffect(() => {
     if (queryId) {
+      // 获取详情
       // getDetailRun();
     }
   }, [queryId]);
 
+  //验证情况
+  const [errorKey, setErrorKey] = React.useState();
   const handleSubmit = React.useCallback(() => {
     validateFields((error) => {
       if (error) {
         const _error = Object.keys(error);
         if (_error.length) {
-          Toast.info(error[_error[0]]["errors"][0]["message"]);
+          const _errorKey = _error[0];
+          setErrorKey(_errorKey);
+          Toast.info(error[_errorKey]["errors"][0]["message"]);
           return;
         }
       }
@@ -51,11 +56,12 @@ export default createForm()((props) => {
         contactsPhone,
         phone, ...rest
       });
+      setErrorKey();
       run({
         ...rest,
         accountNumber: replaceSpace(accountNumber),
         contactsPhone: replaceSpace(contactsPhone),
-        phone: replaceSpace(phone),
+        phone: replaceSpace(phone)
       });
     });
   }, []);
@@ -75,6 +81,7 @@ export default createForm()((props) => {
                   rules: e.rules
                 })}
                 type={e.type}
+                error={e.name === errorKey}
                 placeholder={e.placeholder}
               >
                 {e.label}
