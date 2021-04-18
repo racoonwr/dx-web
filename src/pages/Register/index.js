@@ -86,11 +86,17 @@ export default () => {
       ]);
     },
   });
+  //
+  const testMobile = React.useCallback((val = "") => {
+    const _phone = val.replace(/\s+/g, "");
+    return regs.mobile.test(_phone) ? _phone : false
+  }, []);
+
   const handleRegister = React.useCallback(
     (encrypt) => {
       const { phone, password, ...rest } = fields;
-      const _phone = phone.replace(/\s+/g, "");
-      if (!regs.mobile.test(_phone)) {
+      const _phone = testMobile(phone);
+      if(!_phone) {
         Toast.fail("手机号验证错误,请重新输入.");
         return;
       }
@@ -120,9 +126,9 @@ export default () => {
                 value={fields[_key]}
                 onChange={handleFieldChange(_key)}
                 extra={
-                  e.name === "captcha" ? (
+                  e.name === "code" ? (
                     <Captcha
-                      disabled={true}
+                      disabled={!testMobile(fields.phone)}
                       className={"register-captcha"}
                       mobile={fields["mobile"]}
                     />
