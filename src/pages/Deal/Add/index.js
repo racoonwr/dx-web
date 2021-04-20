@@ -10,26 +10,23 @@ import {
   Icon
 } from "antd-mobile";
 import { useRequest } from "ahooks";
-import { getCompanyList, getContractType } from "./service";
+import { getCompanyList, getContractType, launchContract } from "./service";
 
 import "./index.less";
-import { getList } from "../../Enterprise/service";
 
 const FIELDITEMS = [
   {
-    name: "company",
+    name: "idA",
     label: "签约主体",
     placeholder: "请选择签约主体",
     maxLength: 16
   },
   {
-    name: "type",
+    name: "contractTypeId",
     label: "签约类型",
     placeholder: "请选择签约类型"
   }
 ];
-
-let COMPANY_DATA = [];
 
 export default () => {
   //返回
@@ -38,7 +35,7 @@ export default () => {
   }, []);
 
   //数据
-  const [fields, setFields, tpyePickData] = React.useState({});
+  const [fields, setFields] = React.useState({});
   const handleFieldChange = React.useCallback(
     (key) => (val) => {
       console.log(key, val);
@@ -58,10 +55,20 @@ export default () => {
     );
   }, [fields]);
 
-  const { run: runCompany, loading: roadingCompany } = useRequest(getCompanyList, {
+  const { run: runCompany, loading: roadingCompany, data: companyData } = useRequest(getCompanyList, {
     manual: true,
-    onSuccess: (res) => {
-      console.log("getCompanyList", res);
+    initialData: [],
+    formatResult: (res) => {
+      if (res && res.success) {
+        console.log("companyData", res);
+        const _data = Array.isArray(res.data) ? res.data : [];
+        return _data.map(e => ({
+          value: e.id,
+          label: e.name
+        }));
+      } else {
+        return [];
+      }
     }
   });
 
@@ -69,31 +76,35 @@ export default () => {
     manual: true,
     initialData: [],
     formatResult: (res) => {
-      if( res && res.success) {
-        const _data = res.data || {};
-        return Object.keys(_data).map(e => ({
-          value: e,
-          label : _data[e]
-        }))
-      }else {
-        return []
+      if (res && res.success) {
+        const _data = Array.isArray(res.data) ? res.data : [];
+        return _data.map(e => ({
+          value: e.id,
+          label: e.type
+        }));
+      } else {
+        return [];
       }
     }
   });
 
   //提交
-  const { run, loading } = useRequest(() => {
-  }, {
+  const { run, loading } = useRequest(launchContract, {
     manual: true,
     onSuccess: (res) => {
-      Modal.alert("恭喜您，注册成功！", null, [
-        {
-          text: "确定",
-          onPress: () => {
-            history.replace("/index");
+      if (res && res.success) {
+        Modal.alert("发起签约成功！", null, [
+          {
+            text: "确定",
+            onPress: () => {
+              history.goBack();
+            }
           }
-        }
-      ]);
+        ]);
+      } else {
+        Toast.info(res.message);
+      }
+
     }
   });
 
@@ -101,14 +112,21 @@ export default () => {
 
   const handleAdd = React.useCallback(() => {
     console.log(fields);
-    Modal.alert("提交申请成功！", null, [
-      {
-        text: "确定",
-        onPress: () => {
-          // history.replace("/deal");
-        }
-      }
-    ]);
+    const { idA, contractTypeId, ...rest } = fields;
+    run({
+      ...rest,
+      idA: idA[0],
+      contractTypeId: contractTypeId[0]
+    });
+    //
+    // Modal.alert("提交申请成功！", null, [
+    //   {
+    //     text: "确定",
+    //     onPress: () => {
+    //       // history.replace("/deal");
+    //     }
+    //   }
+    // ]);
     // run(fields);
   }, [fields]);
 
@@ -124,7 +142,7 @@ export default () => {
         <List className={"list-with-input-item add-form "}>
           {FIELDITEMS.map((e, i) => {
             const _key = e.name;
-            return _key === "type" ? (
+            return _key === "contractTypeId" ? (
               <Picker
                 key={_key}
                 cols={1}
@@ -139,7 +157,7 @@ export default () => {
               <Picker
                 key={_key}
                 cols={1}
-                data={COMPANY_DATA}
+                data={companyData}
                 value={fields[_key]}
                 onChange={handleFieldChange(_key)}
                 extra={<span className="placeholder">{e.placeholder}</span>}

@@ -74,17 +74,17 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
 
   /**row render */
   const row = (rowData) => {
-    console.log(rowData);
+    console.log("rowData", rowData);
     return (
       <div key={rowData.id} onClick={handleGo(rowData.id)}>
         <Card>
           <Card.Header
             title="协议标题"
             thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
-            extra={<span>协议时间</span>}
+            extra={<span>{rowData.updateTime}</span>}
           />
           <Card.Body>
-            <div>内容</div>
+            {/*<div>内容</div>*/}
           </Card.Body>
           <Card.Footer
             className="align-vertical"
@@ -139,8 +139,7 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
         </div>
         <ListView
           className="deal-list"
-          // dataSource={dataSource.cloneWithRows(myDealList)}
-          dataSource={dataSource.cloneWithRows([{ id: 1 }])}
+          dataSource={dataSource.cloneWithRows(myDealList)}
           renderFooter={() => (
             <div
               style={{

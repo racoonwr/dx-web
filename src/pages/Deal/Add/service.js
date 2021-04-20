@@ -13,3 +13,13 @@ export const getContractType = (params) => {
     // params
   });
 };
+
+/*获取签约类型*/
+export const launchContract = (params) => {
+  return request.post("/api/contract/launchContract", {
+    data: params
+  });
+};
+
+
+

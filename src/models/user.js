@@ -12,7 +12,7 @@ const UserModel = {
       const response = yield call(login, payload);
       if (response && response.success) {
         Toast.success("登录成功");
-        window.localStorage.setItem("*t*o*k*e*n*", (response.data || { data: {} }).data.token);
+        window.localStorage.setItem("*t*o*k*e*n*", (response.data || { data: {} }).token);
         history.replace("/index");
       }
     },
