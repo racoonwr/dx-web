@@ -31,7 +31,7 @@ const FIELDITEMS = [
 export default () => {
   //返回
   const handleBack = React.useCallback(() => {
-    history.replace("/deal");
+    history.goBack();
   }, []);
 
   //数据
