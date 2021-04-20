@@ -1,8 +1,8 @@
 import React from "react";
 import { connect, history } from "umi";
-import { ListView, Card, Icon, Button, Modal, List } from "antd-mobile";
-import { useRequest } from "ahooks";
+import { ListView, Card, Button } from "antd-mobile";
 import { getList } from "./service";
+import { detailTag } from "../../utils/tools";
 
 import "./index.less";
 
@@ -13,7 +13,7 @@ export default connect(
     return {
       myEnterpriseList,
       myEnterpriseTotal,
-      loading
+      loading,
     };
   }
 )((props) => {
@@ -21,8 +21,9 @@ export default connect(
     dispatch,
     myEnterpriseList = [],
     myEnterpriseTotal = 0,
-    loading
+    loading,
   } = props;
+
   console.log("props", props);
 
   React.useEffect(() => {
@@ -30,7 +31,7 @@ export default connect(
     return () => {
       dispatch({
         key: "myEnterprise",
-        type: "common/clearAnyListView"
+        type: "common/clearAnyListView",
       });
     };
   }, []);
@@ -41,41 +42,41 @@ export default connect(
   }, []);
 
   const handleGo = React.useCallback(
-    (path, id) => () => {
+    (path, rowData) => () => {
       history.push({
         pathname: path,
-        query: {
-          id
-        }
       });
+      if (rowData) {
+        window.localStorage.setItem(detailTag, JSON.stringify(rowData));
+      }
     },
     []
   );
 
   /**row render */
   const row = (rowData) => {
-    console.log("rowData", rowData);
     return (
-      <div key={rowData.id}>
-        <Card>
-          <Card.Header title="企业名称" extra={<span>{rowData.name}</span>} />
-          <Card.Body>
-            {/*<div>内容</div>*/}
-            <div className="operate">
-              <Button inline type="primary" onClick={handleGo("/deal/add")}>
-                发起签约
-              </Button>
-              <Button
-                inline
-                type="primary"
-                onClick={handleGo(`/enterprise/detail`, rowData.id)}
-              >
-                查看详情
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
-      </div>
+      <Card className="enterprise-item" key={rowData.id}>
+        <Card.Header
+          title={rowData.name}
+          extra={<span>{rowData.createTime}</span>}
+        />
+        <Card.Body>
+          {/*<div>内容</div>*/}
+          <div className="operate">
+            <Button inline type="primary" onClick={handleGo("/deal/add")}>
+              发起签约
+            </Button>
+            <Button
+              inline
+              type="primary"
+              onClick={handleGo(`/enterprise/detail`, rowData)}
+            >
+              查看详情
+            </Button>
+          </div>
+        </Card.Body>
+      </Card>
     );
   };
 
@@ -83,7 +84,7 @@ export default connect(
   const fetchIng = loading.effects["common/getAnyListView"];
   const [pageNumber, setPageNumber] = React.useState(1);
   const dataSource = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2
+    rowHasChanged: (row1, row2) => row1 !== row2,
   });
 
   const onEndReached = () => {
@@ -102,8 +103,8 @@ export default connect(
       list: myEnterpriseList,
       payload: {
         pageSize,
-        pageNumber
-      }
+        pageNumber,
+      },
     });
   }, [pageNumber]);
 
@@ -117,25 +118,17 @@ export default connect(
           </Button>
         </div>
         <ListView
+          loading={fetchIng}
           className="enterprise-list"
-          loading={props.loading}
           dataSource={dataSource.cloneWithRows(myEnterpriseList)}
           renderFooter={() => (
-            <div
-              style={{
-                padding: 10,
-                fontSize: "0.35rem",
-                textAlign: "center",
-                color: "rgba(17, 31, 44, 0.5)"
-              }}
-            >
+            <div className="list-no-data">
+              {fetchIng
+                ? "正在加载..."
+                : myEnterpriseTotal === 0 && pageNumber === 1 && "暂无数据"}
               {pageNumber > 1 &&
-              pageSize * pageNumber > myEnterpriseTotal &&
-              "到底了～"}
-              {!fetchIng &&
-              myEnterpriseTotal === 0 &&
-              pageNumber === 1 &&
-              "暂无数据"}
+                pageSize * pageNumber > myEnterpriseTotal &&
+                "到底了～"}
             </div>
           )}
           renderRow={row}

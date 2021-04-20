@@ -2,6 +2,7 @@ import { extend } from "umi-request";
 import { Toast } from "antd-mobile";
 import { history } from "umi";
 import { Base64 } from "js-base64";
+import { tokenTag } from "../utils/tools";
 
 const errorHandler = (error) => {
   console.log("errorororor---> fetcg", error);
@@ -51,7 +52,7 @@ request.interceptors.request.use((url, options) => {
     ...options,
   };
 
-  const token = window.localStorage.getItem("*t*o*k*e*n*");
+  const token = window.localStorage.getItem(tokenTag);
   if (token && token !== "null" && token !== "undefined") {
     params.headers.Authorization = token;
   }
@@ -72,19 +73,17 @@ request.interceptors.response.use(async (response, options) => {
     }
     return response;
   }
-  //error数据
-  if (data.error_code) {
-    //不显示toast
-    if (!options.noMessage) {
-      Toast.info(data.description || "未知错误");
-    }
-    return data;
-  } else {
-    //正常数据
+
+  if (data.code === 0) {
     return {
       ...data,
       success: true,
     };
+  } else {
+    if (!options.noMessage) {
+      Toast.info(data.message || "未知错误");
+    }
+    return data;
   }
 });
 

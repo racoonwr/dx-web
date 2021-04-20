@@ -11,33 +11,49 @@ const pageSize = 10;
 
 const DEAL_DETAIL_KEYS = [
   {
-    label: "协议编号"
+    label: "协议编号",
+    name: "updateTime",
   },
   {
-    label: "签约主体"
+    label: "签约主体",
+    name: "updateTime",
   },
   {
-    label: "签约对象"
+    label: "签约对象",
+    name: "updateTime",
   },
   {
-    label: "更新时间"
+    label: "更新时间",
+    name: "updateTime",
   },
   {
-    label: "协议类型"
+    label: "协议类型",
+    name: "updateTime",
   },
   {
-    label: "签约状态"
-  }
+    label: "签约状态",
+    name: "updateTime",
+  },
 ];
 
 export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
   return {
     myDealList,
     myDealTotal,
-    loading
+    loading,
   };
 })((props) => {
   const { dispatch, myDealList = [], myDealTotal = 0, loading } = props;
+
+  React.useEffect(() => {
+    document.title = "";
+    return () => {
+      dispatch({
+        key: "myDeal",
+        type: "common/clearAnyListView",
+      });
+    };
+  }, []);
 
   /**add */
   const handleAdd = React.useCallback(() => {
@@ -59,14 +75,15 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
   const [modalState, setModalState] = React.useState({});
   const handleCancel = React.useCallback(() => {
     setFalse();
+    // 防止数据为空 弹窗未消失
     // setModalState({});
   }, []);
   const handleGo = React.useCallback(
-    (id) => () => {
+    (row = {}) => () => {
       setTrue();
       setModalState({
-        id: id,
-        title: "1的详情"
+        ...row,
+        title: `${row.title || "xxxx协议标题"}详情`,
       });
     },
     []
@@ -74,25 +91,20 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
 
   /**row render */
   const row = (rowData) => {
-    console.log("rowData", rowData);
     return (
-      <div key={rowData.id} onClick={handleGo(rowData.id)}>
-        <Card>
-          <Card.Header
-            title="协议标题"
-            thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
-            extra={<span>{rowData.updateTime}</span>}
-          />
-          <Card.Body>
-            {/*<div>内容</div>*/}
-          </Card.Body>
-          <Card.Footer
-            className="align-vertical"
-            content="查看详情"
-            extra={<Icon type="right" size="sm" />}
-          />
-        </Card>
-      </div>
+      <Card key={rowData.id} className="deal-item" onClick={handleGo(rowData)}>
+        <Card.Header
+          title="协议标题"
+          thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
+          extra={<span>{rowData.updateTime}</span>}
+        />
+        <Card.Body>{/*<div>内容</div>*/}</Card.Body>
+        <Card.Footer
+          className="align-vertical"
+          content="查看详情"
+          extra={<Icon type="right" size="sm" />}
+        />
+      </Card>
     );
   };
 
@@ -100,7 +112,7 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
   const fetchIng = loading.effects["common/getAnyListView"];
   const [pageNumber, setPageNumber] = React.useState(1);
   const dataSource = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2
+    rowHasChanged: (row1, row2) => row1 !== row2,
   });
 
   const onEndReached = () => {
@@ -119,14 +131,10 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
       list: myDealList,
       payload: {
         pageSize,
-        pageNumber
-      }
+        pageNumber,
+      },
     });
   }, [pageNumber]);
-
-  React.useEffect(() => {
-    document.title = "";
-  }, []);
 
   return (
     <div className={"page"}>
@@ -138,21 +146,17 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
           </Button>
         </div>
         <ListView
+          loading={fetchIng}
           className="deal-list"
           dataSource={dataSource.cloneWithRows(myDealList)}
           renderFooter={() => (
-            <div
-              style={{
-                padding: 10,
-                fontSize: "0.35rem",
-                textAlign: "center",
-                color: "rgba(17, 31, 44, 0.5)"
-              }}
-            >
+            <div className="list-no-data">
+              {fetchIng
+                ? "正在加载..."
+                : myDealTotal === 0 && pageNumber === 1 && "暂无数据"}
               {pageNumber > 1 &&
-              pageSize * pageNumber > myDealTotal &&
-              "到底了～"}
-              {!fetchIng && myDealTotal === 0 && pageNumber === 1 && "暂无数据"}
+                pageSize * pageNumber > myDealTotal &&
+                "到底了～"}
             </div>
           )}
           renderRow={row}
@@ -163,38 +167,40 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
         />
       </div>
       <Modal
-        className="deal-detail-modal"
-        visible={visible}
         transparent
+        visible={visible}
         maskClosable={false}
-        title={modalState.title || " "}
+        title={modalState.title}
+        className="deal-detail-modal"
+        wrapProps={{ onTouchStart: onWrapTouchStart }}
         footer={[
           {
             text: "取消",
             onPress: () => {
-              console.log("ok");
               handleCancel();
-            }
+            },
           },
           {
             text: "下载",
             onPress: () => {
               console.log("下载");
+              //promise 之后下载
               handleCancel();
-            }
-          }
+            },
+          },
         ]}
-        wrapProps={{ onTouchStart: onWrapTouchStart }}
       >
         <List className="keys-list-wrapper">
           {DEAL_DETAIL_KEYS.map((e) => {
             return (
               <List.Item
+                key={e.name}
                 multipleLine
                 platform="android"
-                extra="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                onClick={() => {}}
+                extra={modalState[e.name] || "-"}
               >
-                {e.label}:
+                {e.label}：
               </List.Item>
             );
           })}

@@ -1,22 +1,23 @@
 import { login, getUserInfo } from "@/services/user";
 import { Toast } from "antd-mobile";
 import { history } from "umi";
+import { tokenTag } from "../utils/tools";
 
 const UserModel = {
   namespace: "user",
   state: {
-    key: ""
+    key: "",
   },
   effects: {
-    * login({ payload }, { call, put }) {
+    *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
       if (response && response.success) {
         Toast.success("登录成功");
-        window.localStorage.setItem("*t*o*k*e*n*", (response.data || { data: {} }).token);
-        history.replace("/index");
+        window.localStorage.setItem(tokenTag, (response.data || {}).token);
+        history.push("/index");
       }
     },
-    * getUser(_, { call, put }) {
+    *getUser(_, { call, put }) {
       const response = yield call(getUserInfo);
       //解构
       yield put({
@@ -24,22 +25,22 @@ const UserModel = {
         payload:
           response.status === 403
             ? {
-              data: {
-                forbidden: true
+                data: {
+                  forbidden: true,
+                },
               }
-            }
-            : response
+            : response,
       });
-    }
+    },
   },
 
   reducers: {
     saveUser(state, action) {
       return {
-        ...(action.payload.data || {})
+        ...(action.payload.data || {}),
       };
-    }
-  }
+    },
+  },
 };
 
 export default UserModel;
