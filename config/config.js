@@ -81,6 +81,10 @@ const config = {
                   component: "@/layouts/base/index",
                   routes: [
                     {
+                      path: "/",
+                      redirect: "/index",
+                    },
+                    {
                       path: "/index",
                       title: "管理后台",
                       component: "./Index/index",

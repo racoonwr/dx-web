@@ -5,7 +5,7 @@ import { createForm } from "rc-form";
 import { FORMA, FORMB } from "./constant";
 import { useRequest } from "ahooks";
 import { creat } from "./service";
-import { replaceSpace } from "../../../utils/tools";
+import { replaceSpace, detailTag } from "../../../utils/tools";
 
 import "./index.less";
 
@@ -14,29 +14,47 @@ export default createForm()((props) => {
     document.title = "";
   }, []);
 
-  const queryId = history.location.query.id;
+  const handleBack = React.useCallback(() => {
+    history.replace("/enterprise");
+  }, []);
+
+  const queryId = history.location.pathname === "/enterprise/detail";
 
   const {
-    form: { getFieldProps, validateFields }
+    form: { getFieldProps, validateFields, setFieldsValue },
   } = props;
 
-  const { run, loading } = useRequest(
-    creat,
-    {
-      manual: true,
-      onSuccess: (res) => {
-        //set fields value
-        console.log(res);
-        Toast.info("创建成功！");
-        history.replace("/enterprise");
+  const { run, loading } = useRequest(creat, {
+    manual: true,
+    onSuccess: (res) => {
+      if (res && res.success) {
+        Toast.info("新增企业成功！");
+        handleBack();
       }
-    }
-  );
+    },
+  });
 
   React.useEffect(() => {
     if (queryId) {
       // 获取详情
-      // getDetailRun();
+      const detail = JSON.parse(window.localStorage.getItem(detailTag) || "{}");
+      const fiels = FORMA.concat(FORMB)
+        .map(
+          (e) => ({
+            value: detail[e.name],
+            name: e.name,
+            type: e.type,
+          }),
+          {}
+        )
+        .reduce((pre, cur) => ({
+          ...pre,
+          [cur.name]:
+            cur.type === "phone"
+              ? (cur.value || "").replace(/^(.{3})(.*)(.{4})$/, "$1 $2 $3")
+              : cur.value,
+        }));
+      setFieldsValue(fiels);
     }
   }, [queryId]);
 
@@ -54,19 +72,19 @@ export default createForm()((props) => {
         }
       }
     }).then(({ accountNumber, contactsPhone, phone, ...rest }) => {
-      console.log({
-        accountNumber,
-        contactsPhone,
-        phone, ...rest
-      });
       setErrorKey();
       run({
         ...rest,
         accountNumber: replaceSpace(accountNumber),
         contactsPhone: replaceSpace(contactsPhone),
-        phone: replaceSpace(phone)
+        phone: replaceSpace(phone),
       });
     });
+  }, []);
+
+  //focus 取消error
+  const handleFouces = React.useCallback(() => {
+    setErrorKey();
   }, []);
 
   return (
@@ -81,11 +99,13 @@ export default createForm()((props) => {
               <InputItem
                 key={e.name}
                 {...getFieldProps(e.name, {
-                  rules: e.rules
+                  rules: e.rules,
                 })}
                 type={e.type}
                 error={e.name === errorKey}
                 placeholder={e.placeholder}
+                onFocus={handleFouces}
+                disabled={queryId}
               >
                 {e.label}
               </InputItem>
@@ -101,10 +121,13 @@ export default createForm()((props) => {
               <InputItem
                 key={e.name}
                 {...getFieldProps(e.name, {
-                  rules: e.rules
+                  rules: e.rules,
                 })}
                 type={e.type}
+                error={e.name === errorKey}
                 placeholder={e.placeholder}
+                onFocus={handleFouces}
+                disabled={queryId}
               >
                 {e.label}
               </InputItem>
@@ -112,14 +135,12 @@ export default createForm()((props) => {
           })}
         </List>
         <div className={"enterprise-operate-btns"}>
-          <Button>返回</Button>
-          <Button
-            loading={loading}
-            type={"primary"}
-            onClick={handleSubmit}
-          >
-            提交
-          </Button>
+          <Button onClick={handleBack}>返回</Button>
+          {queryId ? null : (
+            <Button loading={loading} type={"primary"} onClick={handleSubmit}>
+              提交
+            </Button>
+          )}
         </div>
       </div>
     </div>
