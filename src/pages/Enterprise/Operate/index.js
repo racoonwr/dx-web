@@ -28,6 +28,7 @@ export default createForm()((props) => {
         //set fields value
         console.log(res);
         Toast.info("创建成功！");
+        history.replace("/enterprise");
       }
     }
   );
