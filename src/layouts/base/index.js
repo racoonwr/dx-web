@@ -9,7 +9,7 @@ import { useRequest } from "ahooks";
 import styles from "./index.less";
 
 const checkRoute = (router, pathname) => {
-  console.log(111, router, pathname);
+  // console.log(111, router, pathname);
   const authority = router.find(
     ({ routes, path = "/", target = "_self" }) =>
       (path && target !== "_blank" && pathRegexp(path).exec(pathname)) ||
@@ -29,7 +29,7 @@ const BaseLayout = (props) => {
     []
   );
 
-  console.log("....base");
+  // console.log("....base");
 
   return (
     <>

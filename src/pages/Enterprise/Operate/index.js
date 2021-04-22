@@ -15,7 +15,7 @@ export default createForm()((props) => {
   }, []);
 
   const handleBack = React.useCallback(() => {
-    history.replace("/enterprise");
+    history.goBack();
   }, []);
 
   const queryId = history.location.pathname === "/enterprise/detail";

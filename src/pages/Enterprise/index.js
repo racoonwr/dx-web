@@ -24,8 +24,6 @@ export default connect(
     loading,
   } = props;
 
-  console.log("props", props);
-
   React.useEffect(() => {
     document.title = "";
     return () => {
