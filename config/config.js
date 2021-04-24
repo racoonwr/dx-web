@@ -75,7 +75,6 @@ const config = {
           component: "@/layouts/security",
           routes: [
             {
-              component: "@/layouts/index",
               routes: [
                 {
                   component: "@/layouts/base/index",

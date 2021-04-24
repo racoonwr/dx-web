@@ -36,13 +36,21 @@ export default connect(
 
   /**add */
   const handleAdd = React.useCallback(() => {
-    history.push("/enterprise/add");
+    history.push({
+      pathname: "/enterprise/add",
+      query: {
+        t: +new Date(),
+      },
+    });
   }, []);
 
   const handleGo = React.useCallback(
     (path, rowData) => () => {
       history.push({
         pathname: path,
+        query: {
+          t: +new Date(),
+        },
       });
       if (rowData) {
         window.localStorage.setItem(detailTag, JSON.stringify(rowData));

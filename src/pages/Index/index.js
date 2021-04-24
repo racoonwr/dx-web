@@ -7,7 +7,12 @@ import "./index.less";
 export default () => {
   const handleGo = React.useCallback(
     (href) => () => {
-      history.push(href);
+      history.push({
+        pathname: href,
+        query: {
+          t: +new Date(),
+        },
+      });
     },
     []
   );
