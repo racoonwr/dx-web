@@ -48,7 +48,13 @@ const FIELDITEMS = [
 export default () => {
   //返回
   const handleBack = React.useCallback(() => {
-    history.replace("/login");
+    history.replace({
+      pathname: "/login",
+      query: {
+        t: + new Date()
+      }
+    });
+
   }, []);
 
   //数据
@@ -82,7 +88,12 @@ export default () => {
           {
             text: "确定",
             onPress: () => {
-              history.replace("/login");
+              history.replace({
+                pathname: "/login",
+                query: {
+                  t: + new Date()
+                }
+              });
             },
           },
         ]);
