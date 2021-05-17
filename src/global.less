@@ -454,73 +454,49 @@ body {
 
 /*前进*/
 /*pre*/
+.forward-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
 .forward-enter-active {
-  animation: ForwardEnter 0.4s forwards;
-  z-index: 2002;
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 500ms;
 }
 
-@keyframes ForwardEnter {
-  from {
-    transform: translate3d(100%, 0, 0);
-    // opacity: 0.9;
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-    // opacity: 1;
-  }
-}
-
-/*cur*/
-.back-exit-active {
-  animation: BackExit 0.4s forwards;
-}
-
-@keyframes BackExit {
-  from {
-    // opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    // opacity: 0.5;
-    transform: translate3d(-100%, 0, 0);
-  }
-}
-
-/*返回*/
-/*pre*/
-.back-enter-active {
-  animation: BackEnter 0.4s forwards;
-}
-
-@keyframes BackEnter {
-  from {
-    opacity: 0.5;
-    transform: translate3d(-20%, 0, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
+.forward-exit {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .forward-exit-active {
-  animation: ForwardExit 0.4s forwards;
-  z-index: 2002;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 500ms;
 }
 
-@keyframes ForwardExit {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
+/* 路由后退时的入场/离场动画 */
+.back-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
 
-  to {
-    transform: translate3d(100%, 0, 0);
-    opacity: 0.9;
-  }
+.back-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 500ms;
+}
+
+.back-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.back-exit-active {
+  opacity: 0;
+  transform: translate(100%);
+  transition: all 500ms;
 }
 
 /*渐入渐出动画*/

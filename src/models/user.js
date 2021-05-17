@@ -14,7 +14,12 @@ const UserModel = {
       if (response && response.success) {
         Toast.success("登录成功");
         window.localStorage.setItem(tokenTag, (response.data || {}).token);
-        history.push("/index");
+        history.push({
+          pathname: "/index",
+          query: {
+            t: +new Date(),
+          },
+        });
       }
     },
     *getUser(_, { call, put }) {

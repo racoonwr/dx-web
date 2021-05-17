@@ -8,17 +8,6 @@ const errorHandler = (error) => {
   console.log("errorororor---> fetcg", error);
   const { response } = error;
   if (response && response.status) {
-    if (response.status === 401) {
-      if (history.location.pathname !== "/login") {
-        const redirect = `${history.location.pathname}${history.location.search}`;
-        history.replace({
-          pathname: "/login",
-          query: {
-            redirect: Base64.encodeURI(redirect),
-          },
-        });
-      }
-    }
     if (response.status === 403) {
       return response;
     }
@@ -69,7 +58,12 @@ request.interceptors.response.use(async (response, options) => {
   if (data.status === 401) {
     Toast.info(data.message || data.error);
     if (history.location.pathname !== "/login") {
-      history.replace("/login");
+      history.replace({
+        pathname: "/login",
+        query: {
+          t: + new Date()
+        }
+      });
     }
     return response;
   }

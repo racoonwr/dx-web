@@ -21,7 +21,7 @@ class SecurityLayout extends React.Component {
   }
 
   render() {
-    console.log("-----securit", this.props);
+    // console.log("-----securit", this.props);
     return this.props.children;
 
     const { isReady } = this.state;

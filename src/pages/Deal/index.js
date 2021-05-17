@@ -57,7 +57,12 @@ export default connect(({ common: { myDealList, myDealTotal }, loading }) => {
 
   /**add */
   const handleAdd = React.useCallback(() => {
-    history.push("/deal/add");
+    history.push({
+      pathname: "/deal/add",
+      query: {
+        t: +new Date(),
+      },
+    });
   }, []);
 
   /**detail modal */

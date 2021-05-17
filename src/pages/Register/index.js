@@ -34,7 +34,7 @@ const FIELDITEMS = [
     label: "验证码",
     placeholder: "请输入验证码",
     type: "number",
-    maxLength: 16
+    maxLength: 6
   },
   {
     name: "password",
@@ -48,7 +48,13 @@ const FIELDITEMS = [
 export default () => {
   //返回
   const handleBack = React.useCallback(() => {
-    history.replace("/login");
+    history.replace({
+      pathname: "/login",
+      query: {
+        t: +new Date()
+      }
+    });
+
   }, []);
 
   //数据
@@ -82,7 +88,12 @@ export default () => {
           {
             text: "确定",
             onPress: () => {
-              history.replace("/login");
+              history.replace({
+                pathname: "/login",
+                query: {
+                  t: +new Date()
+                }
+              });
             }
           }
         ]);
@@ -158,3 +169,4 @@ export default () => {
     </div>
   );
 };
+;

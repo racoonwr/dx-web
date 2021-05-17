@@ -21,7 +21,6 @@ const FIELDITEM = [
 ];
 
 export default connect(({ loading }) => {
-  console.log(123, loading);
   return {
     loading: loading.effects["user/login"],
   };
@@ -61,7 +60,12 @@ export default connect(({ loading }) => {
   );
 
   const handleRegister = React.useCallback(() => {
-    history.push("/register");
+    history.push({
+      pathname: "/register",
+      query: {
+        t: +new Date(),
+      },
+    });
   }, []);
 
   return (
