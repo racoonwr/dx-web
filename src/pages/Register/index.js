@@ -11,29 +11,22 @@ import SercretButton from "../../components/sercretButton";
 import "./index.less";
 
 const FIELDITEMS = [
-  {
-    name: "name",
-    label: "用户名",
-    placeholder: "请输入用户名",
-    maxLength: 16
-  },
-  {
-    name: "password",
-    label: "密码",
-    placeholder: "请输入密码",
-    type: "password",
-    maxLength: 16
-  },
+  // {
+  //   name: "name",
+  //   label: "用户名",
+  //   placeholder: "请输入用户名",
+  //   maxLength: 16
+  // },
   {
     name: "userName",
-    label: "经办人姓名",
-    placeholder: "请输入经办人姓名",
+    label: "姓名",
+    placeholder: "请输入姓名",
     maxLength: 16
   },
   {
     name: "phone",
-    label: "经办人电话",
-    placeholder: "请输入经办人电话",
+    label: "手机号",
+    placeholder: "请输入手机号（登录账号）",
     type: "phone"
   },
   {
@@ -41,6 +34,13 @@ const FIELDITEMS = [
     label: "验证码",
     placeholder: "请输入验证码",
     type: "number",
+    maxLength: 16
+  },
+  {
+    name: "password",
+    label: "密码",
+    placeholder: "请输入密码",
+    type: "password",
     maxLength: 16
   }
 ];
@@ -106,7 +106,8 @@ export default () => {
       run({
         ...rest,
         phone: _phone,
-        password: encrypt.encrypt(password)
+        password: encrypt.encrypt(password),
+        name: _phone
       });
     },
     [fields]
