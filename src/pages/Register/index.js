@@ -17,24 +17,32 @@ const FIELDITEMS = [
   //   placeholder: "请输入用户名",
   //   maxLength: 16
   // },
+  // 上次发我的程序，是用户名从界面去掉，改成手机号，也就是user_name字段，name的话还是要传用户的真实姓名的，这个空了帮我改一下吧
   {
-    name: "userName",
+    name: "name",
     label: "姓名",
     placeholder: "请输入姓名",
     maxLength: 16
   },
   {
-    name: "phone",
-    label: "手机号",
-    placeholder: "请输入手机号（登录账号）",
-    type: "phone"
+    name: "companyName",
+    label: "企业名称",
+    placeholder: "请输入企业名称",
+    minLength: 1,
+    maxLength: 16
   },
   {
-    name: "code",
-    label: "验证码",
-    placeholder: "请输入验证码",
-    type: "number",
-    maxLength: 6
+    name: "title",
+    label: "职务",
+    placeholder: "请输入职务",
+    minLength: 1,
+    maxLength: 16
+  },
+  {
+    name: "phone",
+    label: "手机号（登录账号）",
+    placeholder: "请输入手机号",
+    type: "phone"
   },
   {
     name: "password",
@@ -42,6 +50,13 @@ const FIELDITEMS = [
     placeholder: "请输入密码",
     type: "password",
     maxLength: 16
+  },
+  {
+    name: "code",
+    label: "验证码",
+    placeholder: "请输入验证码",
+    type: "number",
+    maxLength: 6
   }
 ];
 
@@ -116,9 +131,9 @@ export default () => {
       }
       run({
         ...rest,
+        userName: _phone,
         phone: _phone,
-        password: encrypt.encrypt(password),
-        name: _phone
+        password: encrypt.encrypt(password)
       });
     },
     [fields]

@@ -13,7 +13,7 @@ export default connect(
     return {
       myEnterpriseList,
       myEnterpriseTotal,
-      loading,
+      loading
     };
   }
 )((props) => {
@@ -21,7 +21,7 @@ export default connect(
     dispatch,
     myEnterpriseList = [],
     myEnterpriseTotal = 0,
-    loading,
+    loading
   } = props;
 
   React.useEffect(() => {
@@ -29,7 +29,7 @@ export default connect(
     return () => {
       dispatch({
         key: "myEnterprise",
-        type: "common/clearAnyListView",
+        type: "common/clearAnyListView"
       });
     };
   }, []);
@@ -39,8 +39,8 @@ export default connect(
     history.push({
       pathname: "/enterprise/add",
       query: {
-        t: +new Date(),
-      },
+        t: +new Date()
+      }
     });
   }, []);
 
@@ -49,11 +49,17 @@ export default connect(
       history.push({
         pathname: path,
         query: {
-          t: +new Date(),
-        },
+          enterpriseId: rowData.id
+        }
       });
       if (rowData) {
-        window.localStorage.setItem(detailTag, JSON.stringify(rowData));
+        debugger
+        const localData = JSON.parse(window.localStorage.getItem(detailTag));
+        if (localData && localData["updated"]) {
+
+        } else {
+          window.localStorage.setItem(detailTag, JSON.stringify(rowData));
+        }
       }
     },
     []
@@ -61,6 +67,7 @@ export default connect(
 
   /**row render */
   const row = (rowData) => {
+    window.localStorage.removeItem(detailTag);
     return (
       <Card className="enterprise-item" key={rowData.id}>
         <Card.Header
@@ -90,7 +97,7 @@ export default connect(
   const fetchIng = loading.effects["common/getAnyListView"];
   const [pageNumber, setPageNumber] = React.useState(1);
   const dataSource = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
+    rowHasChanged: (row1, row2) => row1 !== row2
   });
 
   const onEndReached = () => {
@@ -109,8 +116,8 @@ export default connect(
       list: myEnterpriseList,
       payload: {
         pageSize,
-        pageNumber,
-      },
+        pageNumber
+      }
     });
   }, [pageNumber]);
 
@@ -133,8 +140,8 @@ export default connect(
                 ? "正在加载..."
                 : myEnterpriseTotal === 0 && pageNumber === 1 && "暂无数据"}
               {pageNumber > 1 &&
-                pageSize * pageNumber > myEnterpriseTotal &&
-                "到底了～"}
+              pageSize * pageNumber > myEnterpriseTotal &&
+              "到底了～"}
             </div>
           )}
           renderRow={row}

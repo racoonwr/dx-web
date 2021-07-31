@@ -11,12 +11,9 @@
     transform: translate(-50%, -50%);
     width: 100%;
 
-    ul li {
+    .main-button {
       font-size: 60px;
-      width: 35%;
-      margin: 0 calc(30% / 4);
-      position: relative;
-      display: inline-block;
+      margin: 0 calc(50% / 2);
       background: @brand-primary;
       border-radius: 6px;
       text-align: center;
@@ -27,6 +24,25 @@
         color: hsla(0, 0%, 100%, .3);
         background-color: @brand-primary-tap;
       }
+    }
+
+    ul li {
+      font-size: 60px;
+      width: 100%;
+      //margin: 0 calc(30% / 4);
+      margin: 0 auto;
+      position: relative;
+      display: inline-block;
+      //background: @brand-primary;
+      border-radius: 6px;
+      text-align: center;
+      padding: 48px 0;
+      color: #fff;
+
+      //&:active {
+      //  color: hsla(0, 0%, 100%, .3);
+      //  background-color: @brand-primary-tap;
+      //}
     }
   }
 }

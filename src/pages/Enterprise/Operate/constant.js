@@ -19,7 +19,7 @@ export const FORMA = [
     name: "uscc",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "统一社会代码不能为空",
       },
@@ -31,7 +31,7 @@ export const FORMA = [
     name: "registerAddress",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "单位地址不能为空",
       },
@@ -43,7 +43,7 @@ export const FORMA = [
     name: "bank",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "开户银行不能为空",
       },
@@ -56,7 +56,7 @@ export const FORMA = [
     type: "bankCard",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "银行账号不能为空",
       },
@@ -69,7 +69,7 @@ export const FORMA = [
     type: "phone",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "电话号码不能为空",
       },
@@ -88,7 +88,7 @@ export const FORMB = [
     name: "email",
     rules: [
       {
-        required: true,
+        required: false,
         message: "电子邮箱不能为空",
       },
       {
@@ -103,7 +103,7 @@ export const FORMB = [
     name: "mailAddress",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "收件地址不能为空",
       },
@@ -115,7 +115,7 @@ export const FORMB = [
     name: "contacts",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "联系人姓名不能为空",
       },
@@ -128,7 +128,7 @@ export const FORMB = [
     type: "phone",
     rules: [
       {
-        required: true,
+        required: false,
         whitespace: true,
         message: "联系电话不能为空",
       },

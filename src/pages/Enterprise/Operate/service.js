@@ -6,3 +6,10 @@ export const creat = (params) => {
     data: params
   });
 };
+
+export const update = (params) => {
+  return request.post("/api/enterprise/update", {
+    data: params
+  });
+};
+
