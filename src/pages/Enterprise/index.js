@@ -49,17 +49,12 @@ export default connect(
       history.push({
         pathname: path,
         query: {
-          enterpriseId: rowData.id
+          enterpriseId: rowData.id,
+          t: +new Date()
         }
       });
       if (rowData) {
-        debugger
-        const localData = JSON.parse(window.localStorage.getItem(detailTag));
-        if (localData && localData["updated"]) {
-
-        } else {
-          window.localStorage.setItem(detailTag, JSON.stringify(rowData));
-        }
+        window.localStorage.setItem(detailTag, JSON.stringify(rowData));
       }
     },
     []
@@ -67,7 +62,6 @@ export default connect(
 
   /**row render */
   const row = (rowData) => {
-    window.localStorage.removeItem(detailTag);
     return (
       <Card className="enterprise-item" key={rowData.id}>
         <Card.Header

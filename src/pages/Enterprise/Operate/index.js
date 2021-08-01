@@ -107,13 +107,6 @@ export default createForm()((props) => {
       }
     }).then(({ accountNumber, contactsPhone, phone, ...rest }) => {
       setErrorKey();
-      window.localStorage.setItem(detailTag, JSON.stringify({
-        ...rest,
-        id: enterpriseData["id"],
-        accountNumber: replaceSpace(accountNumber),
-        contactsPhone: replaceSpace(contactsPhone),
-        phone: replaceSpace(phone)
-      }));
       updateRequest.run({
         ...rest,
         enterpriseId: enterpriseData["id"],
