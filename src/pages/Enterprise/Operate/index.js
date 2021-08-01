@@ -138,7 +138,7 @@ export default createForm()((props) => {
         >
           {FORMA.map((e) => {
             return (
-              e.name === 'id' ? null : <InputItem
+              <InputItem
                 key={e.name}
                 {...getFieldProps(e.name, {
                   rules: e.rules
@@ -147,7 +147,7 @@ export default createForm()((props) => {
                 error={e.name === errorKey}
                 placeholder={e.placeholder}
                 onFocus={handleFouces}
-                disabled={e.name !== "id" && (queryId && !editing)}
+                disabled={e.name === "id" || (queryId && !editing)}
               >
                 {e.label}
               </InputItem>
