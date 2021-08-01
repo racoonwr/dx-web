@@ -71,9 +71,9 @@ export default connect(
         <Card.Body>
           {/*<div>内容</div>*/}
           <div className="operate">
-            <Button inline type="primary" onClick={handleGo("/deal/add")}>
-              发起签约
-            </Button>
+            {/*<Button inline type="primary" onClick={handleGo("/deal/add")}>*/}
+            {/*  发起签约*/}
+            {/*</Button>*/}
             <Button
               inline
               type="primary"
