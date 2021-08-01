@@ -138,7 +138,7 @@ export default createForm()((props) => {
         >
           {FORMA.map((e) => {
             return (
-              <InputItem
+              e.name === 'id' ? null : <InputItem
                 key={e.name}
                 {...getFieldProps(e.name, {
                   rules: e.rules
