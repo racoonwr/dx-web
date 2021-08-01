@@ -9,8 +9,6 @@ import { replaceSpace, detailTag } from "../../../utils/tools";
 
 import "./index.less";
 
-const enterpriseData = JSON.parse(window.localStorage.getItem(detailTag));
-
 export default createForm()((props) => {
   React.useEffect(() => {
     document.title = "";
@@ -48,10 +46,11 @@ export default createForm()((props) => {
   React.useEffect(() => {
     if (queryId) {
       // 获取详情
+      const detail = JSON.parse(window.localStorage.getItem(detailTag) || "{}");
       const fiels = FORMA.concat(FORMB)
       .map(
         (e) => ({
-          value: enterpriseData[e.name],
+          value: detail[e.name],
           name: e.name,
           type: e.type
         }),
@@ -64,6 +63,7 @@ export default createForm()((props) => {
             ? (cur.value || "").replace(/^(.{3})(.*)(.{4})$/, "$1 $2 $3")
             : cur.value
       }));
+
       setFieldsValue(fiels);
     }
   }, [queryId]);
@@ -107,9 +107,14 @@ export default createForm()((props) => {
       }
     }).then(({ accountNumber, contactsPhone, phone, ...rest }) => {
       setErrorKey();
+      window.localStorage.setItem(detailTag, JSON.stringify({
+        ...rest,
+        accountNumber: replaceSpace(accountNumber),
+        contactsPhone: replaceSpace(contactsPhone),
+        phone: replaceSpace(phone)
+      }));
       updateRequest.run({
         ...rest,
-        enterpriseId: enterpriseData["id"],
         accountNumber: replaceSpace(accountNumber),
         contactsPhone: replaceSpace(contactsPhone),
         phone: replaceSpace(phone)
@@ -140,7 +145,7 @@ export default createForm()((props) => {
                 error={e.name === errorKey}
                 placeholder={e.placeholder}
                 onFocus={handleFouces}
-                disabled={queryId}
+                disabled={queryId && !editing}
               >
                 {e.label}
               </InputItem>
@@ -171,21 +176,23 @@ export default createForm()((props) => {
         </List>
         <div className={"enterprise-operate-btns"}>
           <Button onClick={handleBack}>返回</Button>
-          {queryId ? null : (
-            <Button loading={creatRequest.loading} type={"primary"} onClick={handleSubmit}>
-              提交
-            </Button>
-          )}
+          {queryId ?
+            editing ? (
+              <Button loading={updateRequest.loading} type={"primary"} onClick={handleUpdate}>
+                保存
+              </Button>
+            ) : (
+              <Button loading={updateRequest.loading} type={"primary"} onClick={() => setEditing(true)}>
+                修改
+              </Button>
+            )
+            : (
+              <Button loading={creatRequest.loading} type={"primary"} onClick={handleSubmit}>
+                提交
+              </Button>
+            )}
 
-          {editing ? (
-            <Button loading={updateRequest.loading} type={"primary"} onClick={handleUpdate}>
-              保存
-            </Button>
-          ) : (
-            <Button loading={updateRequest.loading} type={"primary"} onClick={() => setEditing(true)}>
-              修改
-            </Button>
-          )}
+
         </div>
       </div>
     </div>
