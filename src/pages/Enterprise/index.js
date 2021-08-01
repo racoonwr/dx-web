@@ -49,7 +49,7 @@ export default connect(
       history.push({
         pathname: path,
         query: {
-          enterpriseId: rowData.id,
+          id: rowData.id,
           t: +new Date()
         }
       });

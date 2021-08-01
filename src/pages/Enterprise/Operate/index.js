@@ -47,23 +47,25 @@ export default createForm()((props) => {
     if (queryId) {
       // 获取详情
       const detail = JSON.parse(window.localStorage.getItem(detailTag) || "{}");
+      console.log(detail);
+      console.log(FORMA.concat(FORMB));
       const fiels = FORMA.concat(FORMB)
       .map(
         (e) => ({
-          value: detail[e.name],
-          name: e.name,
-          type: e.type
-        }),
-        {}
-      )
+            value: detail[e.name],
+            name: e.name,
+            type: e.type
+          }
+        ))
       .reduce((pre, cur) => ({
         ...pre,
         [cur.name]:
           cur.type === "phone"
             ? (cur.value || "").replace(/^(.{3})(.*)(.{4})$/, "$1 $2 $3")
             : cur.value
-      }));
+      }), {});
 
+      console.log(fiels);
       setFieldsValue(fiels);
     }
   }, [queryId]);
@@ -105,7 +107,7 @@ export default createForm()((props) => {
           return;
         }
       }
-    }).then(({ accountNumber, contactsPhone, phone, ...rest }) => {
+    }).then(({ accountNumber, contactsPhone, phone, enterpriseId, ...rest }) => {
       setErrorKey();
       window.localStorage.setItem(detailTag, JSON.stringify({
         ...rest,
@@ -145,7 +147,7 @@ export default createForm()((props) => {
                 error={e.name === errorKey}
                 placeholder={e.placeholder}
                 onFocus={handleFouces}
-                disabled={queryId && !editing}
+                disabled={e.name !== "id" && (queryId && !editing)}
               >
                 {e.label}
               </InputItem>
