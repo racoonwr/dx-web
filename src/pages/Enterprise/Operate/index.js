@@ -18,6 +18,15 @@ export default createForm()((props) => {
     history.goBack();
   }, []);
 
+  const handleGoList = React.useCallback(() => {
+    history.push({
+      pathname: "/enterprise",
+      query: {
+        t: +new Date()
+      }
+    });
+  }, []);
+
   const queryId = history.location.pathname === "/enterprise/detail";
 
   const {
@@ -36,19 +45,28 @@ export default createForm()((props) => {
 
   const updateRequest = useRequest(update, {
     manual: true,
-    onSuccess: (res) => {
+    onSuccess: (res, params) => {
       if (res && res.success) {
         Toast.info("修改企业信息成功！");
+        window.localStorage.setItem(detailTag, JSON.stringify(params[0]));
+        setEditing(false);
       }
     }
   });
+
+
+  const [id, setId] = React.useState();
 
   React.useEffect(() => {
     if (queryId) {
       // 获取详情
       const detail = JSON.parse(window.localStorage.getItem(detailTag) || "{}");
-      console.log(detail);
-      console.log(FORMA.concat(FORMB));
+      if (detail.id) {
+        setId(detail.id);
+      } else {
+        handleGoList();
+        return;
+      }
       const fiels = FORMA.concat(FORMB)
       .map(
         (e) => ({
@@ -64,8 +82,6 @@ export default createForm()((props) => {
             ? (cur.value || "").replace(/^(.{3})(.*)(.{4})$/, "$1 $2 $3")
             : cur.value
       }), {});
-
-      console.log(fiels);
       setFieldsValue(fiels);
     }
   }, [queryId]);
@@ -109,20 +125,16 @@ export default createForm()((props) => {
       }
     }).then(({ accountNumber, contactsPhone, phone, enterpriseId, ...rest }) => {
       setErrorKey();
-      window.localStorage.setItem(detailTag, JSON.stringify({
+      const newUpdateDetail = {
         ...rest,
         accountNumber: replaceSpace(accountNumber),
         contactsPhone: replaceSpace(contactsPhone),
-        phone: replaceSpace(phone)
-      }));
-      updateRequest.run({
-        ...rest,
-        accountNumber: replaceSpace(accountNumber),
-        contactsPhone: replaceSpace(contactsPhone),
-        phone: replaceSpace(phone)
-      });
+        phone: replaceSpace(phone),
+        id: id
+      };
+      updateRequest.run(newUpdateDetail);
     });
-  }, []);
+  }, [id]);
 
   //focus 取消error
   const handleFouces = React.useCallback(() => {
@@ -193,8 +205,6 @@ export default createForm()((props) => {
                 提交
               </Button>
             )}
-
-
         </div>
       </div>
     </div>

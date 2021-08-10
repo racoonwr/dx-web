@@ -2,15 +2,6 @@ import { regs, replaceSpace } from "../../../utils/tools";
 
 export const FORMA = [
   {
-    label: "企业ID",
-    name: "id",
-    rules: [
-      {
-        required: true,
-      }
-    ],
-  },
-  {
     label: "企业名称",
     placeholder: "请输入企业名称",
     name: "name",

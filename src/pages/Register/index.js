@@ -40,7 +40,7 @@ const FIELDITEMS = [
   },
   {
     name: "phone",
-    label: "手机号（登录账号）",
+    label: "手机号",
     placeholder: "请输入手机号",
     type: "phone"
   },
@@ -99,7 +99,7 @@ export default () => {
     onSuccess: (res) => {
       console.log("onsuccess", res);
       if (res && res.success) {
-        Modal.alert("恭喜您，注册成功！", null, [
+        Modal.alert("恭喜您，注册成功！", "请使用手机号登录。", [
           {
             text: "确定",
             onPress: () => {

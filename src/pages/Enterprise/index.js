@@ -54,7 +54,6 @@ export default connect(
         }
       });
       if (rowData) {
-
         window.localStorage.setItem(detailTag, JSON.stringify(rowData));
       }
     },
